@@ -1,5 +1,7 @@
 # Tool Share
 
+## Contributors: Hambalieu Jallow; Kevin LaMarca; Johsua McCluskey; Shane Roach
+
 Tool Share is an app sharing platform where users can find and share tools within their city.
 
 [Trello](https://trello.com/b/lMQDnfwi/tool-share)
