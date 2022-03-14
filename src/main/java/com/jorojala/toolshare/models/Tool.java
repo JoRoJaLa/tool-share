@@ -21,6 +21,10 @@ public class Tool {
         this.description = description;
     }
 
+    public Tool() {
+        // default constructor
+    }
+
     public Long getId() {
         return id;
     }

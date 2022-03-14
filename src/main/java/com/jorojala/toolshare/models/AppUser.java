@@ -11,7 +11,7 @@ public class AppUser {
     Long id;
     String username;
     String password;
-    String zipCode;
+    String zipcode;
     ArrayList toolsListed;
     Boolean admin = false;
     String location;
@@ -19,10 +19,15 @@ public class AppUser {
     @OneToMany(mappedBy = "toolBorrowedByUser", cascade = CascadeType.ALL)
     List<Tool> toolsBorrowed;
 
-    public AppUser(String username, String password, String zipCode) {
+    public AppUser()
+    {
+        // default constructor
+    }
+
+    public AppUser(String username, String password, String zipcode) {
         this.username = username;
         this.password = password;
-        this.zipCode = zipCode;
+        this.zipcode = zipcode;
     }
 
     public Long getId() {
@@ -49,12 +54,12 @@ public class AppUser {
         this.password = password;
     }
 
-    public String getZipCode() {
-        return zipCode;
+    public String getZipcode() {
+        return zipcode;
     }
 
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
+    public void setZipcode(String zipCode) {
+        this.zipcode = zipCode;
     }
 
     public ArrayList getToolsListed() {
