@@ -1,4 +1,6 @@
-package com.jorojala.toolshare.Model;
+package com.jorojala.toolshare.models;
+
+import com.jorojala.toolshare.models.Results;
 
 import java.util.Arrays;
 

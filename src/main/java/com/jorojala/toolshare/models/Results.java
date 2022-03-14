@@ -1,4 +1,4 @@
-package com.jorojala.toolshare.Model;
+package com.jorojala.toolshare.models;
 
 public class Results {
     double lat;
