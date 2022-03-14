@@ -2,7 +2,7 @@ package com.jorojala.toolshare.location_api;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.jorojala.toolshare.Model.Location;
+import com.jorojala.toolshare.models.Location;
 
 import java.io.*;
 import java.net.*;
