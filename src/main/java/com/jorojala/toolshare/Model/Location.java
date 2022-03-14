@@ -1,2 +1,15 @@
-package com.jorojala.toolshare.Model;public class Location {
+package com.jorojala.toolshare.Model;
+
+import java.util.Arrays;
+
+public class Location {
+
+    Results[] results;
+
+    @Override
+    public String toString() {
+        return "Location{" +
+                "results=" + Arrays.toString(results) +
+                '}';
+    }
 }
