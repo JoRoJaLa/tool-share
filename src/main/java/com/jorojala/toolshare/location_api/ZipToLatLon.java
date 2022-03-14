@@ -4,14 +4,17 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.jorojala.toolshare.models.Location;
 
-import java.io.*;
-import java.net.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class ZipToLatLon {
 
-    public static void main(String [] args) throws IOException {
+    public Location getLocation (String zipcode) throws IOException {
 
-        String userZip = args[0];
+        String userZip = zipcode;
         String apiKey = "c12e8307e3d94229aff21166b9e6e2fc";
 
         URL url = new URL("https://api.geoapify.com/v1/geocode/search?postcode=" + userZip + "&filter=countrycode:us&format=json&apiKey=" + apiKey);
@@ -32,10 +35,12 @@ public class ZipToLatLon {
         String locationJson = gson.toJson(location);
         System.out.println(locationJson);
         zipHttp.disconnect();
+        // This is change
 
-        double exampleDistance = latLongDist(44.365390444, -121.164903327, 44.018753324,-123.091603893);
-        System.out.println(exampleDistance);
+//        double exampleDistance = latLongDist(44.365390444, -121.164903327, 44.018753324,-123.091603893);
+//        System.out.println(exampleDistance);
 
+        return location ;
     }
 
 
