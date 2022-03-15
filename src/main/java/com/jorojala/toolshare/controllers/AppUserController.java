@@ -3,6 +3,7 @@ package com.jorojala.toolshare.controllers;
 import com.jorojala.toolshare.location_api.ZipToLatLon;
 import com.jorojala.toolshare.models.AppUser;
 import com.jorojala.toolshare.models.Location;
+import com.jorojala.toolshare.models.Results;
 import com.jorojala.toolshare.repositories.AppUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -60,16 +61,17 @@ public class AppUserController {
         // instantiate new user object
         AppUser newUser = new AppUser();
         newUser.setUsername(username);
-        newUser.setZipcode(zipcode);
+        //newUser.setZipcode(zipcode);
         // hash user password
         String hashedPassword = passwordEncoder.encode(password);
         // set user password to new hashed password
         newUser.setPassword(hashedPassword);
-        //set user location via ZipToLatLon API call
-//        ZipToLatLon zipToLatLon = new  ZipToLatLon();
-//
-//        Location location = zipToLatLon.getLocation(zipcode);
-//        newUser.setLocation(location.getResults());
+        Location location = ZipToLatLon.getLocation(zipcode);
+
+        Results[] results = location.getResults();
+        newUser.setZipcode(results[0].getPostcode());
+
+        newUser.setResults(results[0]);
 
         // save newly instantiated user object in postgres
         appUserRepository.save(newUser);

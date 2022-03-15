@@ -1,11 +1,23 @@
 package com.jorojala.toolshare.models;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "results")
 public class Results {
     double lat;
     double lon;
     String city;
     String postcode;
     String state;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
+    public Long id;
+
+    @OneToOne(mappedBy = "results")
+    public AppUser appUser;
 
     public double getLat() {
         return lat;

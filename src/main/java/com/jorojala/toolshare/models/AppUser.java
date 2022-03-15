@@ -19,7 +19,10 @@ public class AppUser implements UserDetails{
     String zipcode;
     ArrayList toolsListed;
     Boolean admin = false;
-    Results[] location;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "results_id", referencedColumnName = "id")
+    Results results;
 
     @OneToMany(mappedBy = "toolBorrowedByUser", cascade = CascadeType.ALL)
     List<Tool> toolsBorrowed;
@@ -93,12 +96,12 @@ public class AppUser implements UserDetails{
         this.admin = admin;
     }
 
-    public Results[] getLocation() {
-        return location;
+    public Results getResults() {
+        return results;
     }
 
-    public void setLocation(Results[] location) {
-        this.location = location;
+    public void setResults(Results results) {
+        this.results = results;
     }
 
     @Override
