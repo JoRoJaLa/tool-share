@@ -44,9 +44,6 @@ public class AppUserController {
         return ("splash.html");
     }
 
-    @GetMapping("/createlisting")
-    public String getCreateListingsPage() { return ("tool-form.html");}
-
     @GetMapping("/home")
     public String getHome(Model m, Principal p){
         String username =  p.getName();
@@ -65,9 +62,6 @@ public class AppUserController {
         return ("profile.html");
 
     }
-
-    @GetMapping("/createlisting")
-    public String getCreateListingsPage() { return ("tool-form.html");}
 
     @GetMapping("/login")
     public String getLoginPage()
@@ -125,7 +119,7 @@ public class AppUserController {
             throw new IOException("Tool not available to borrow");
         }
 
-        return new RedirectView("/aboutus");
+        return new RedirectView("/profile");
     }
 
     @GetMapping("/aboutus")
@@ -148,13 +142,9 @@ public class AppUserController {
         // set user password to new hashed password
         newUser.setPassword(hashedPassword);
         Location location = ZipToLatLon.getLocation(zipcode);
-
         Results[] results = location.getResults();
         newUser.setZipcode(results[0].getPostcode());
-
         newUser.setResults(results[0]);
-
-
         // save newly instantiated user object in postgres
         appUserRepository.save(newUser);
         authWithHttpServletRequest(username, password);
