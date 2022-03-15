@@ -4,10 +4,16 @@
     <meta charset="UTF-8">
     <title>Tool Listings</title>
 </head>
+<link rel="stylesheet" href="/css/style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100&display=swap" rel="stylesheet">
 <body>
 <h1>Tool Listings:</h1>
 
 <div>
+
+
     <form action="/borrow-tool" th:method="post">
         <div th:each="tool : ${listOfTools}">
             <span>
@@ -19,6 +25,20 @@
         </div>
     </form>
 </div>
+<div>
+    <form action="/filter-tools" th:method="get">
+        <select name="tools" id="tools">
+            <option value="drill">Drill</option>
+            <option value="crowbar">Crowbar</option>
+            <option value="sledgeHammer">Sledge Hammer</option>
+            <option value="circularSaw">Circular Saw</option>
+        </select>
+        <input type="submit" value="Filter tools">
+    </form>
+</div>
+
+
+
 
 </body>
 </html>

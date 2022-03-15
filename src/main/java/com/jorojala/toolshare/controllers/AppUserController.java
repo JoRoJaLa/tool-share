@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Controller
@@ -41,6 +42,9 @@ public class AppUserController {
     public String getSplash(){
         return ("splash.html");
     }
+
+    @GetMapping("/createlisting")
+    public String getCreateListingsPage() { return ("tool-form.html");}
 
     @GetMapping("/home")
     public String getHome(Model m, Principal p){
@@ -87,10 +91,18 @@ public class AppUserController {
 
     @GetMapping("/tool-listings")
     public String getToolListings(Model m) {
-        List<Tool> listOfTools = toolRepository.findAll();
+        List<Tool> originalListOfTools = toolRepository.findAll();
+
+        List<Tool> listOfTools = originalListOfTools.stream()
+                .filter(Tool::getAvailable)
+                .collect(Collectors.toList());
+
         m.addAttribute("listOfTools", listOfTools);
         return ("tool-listings-page.html");
     }
+
+
+
 
     @PostMapping("/borrow-tool")
     public RedirectView borrowTool(Principal p, Long toolId) {
