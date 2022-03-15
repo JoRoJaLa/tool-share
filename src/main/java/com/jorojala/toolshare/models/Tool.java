@@ -13,6 +13,9 @@ public class Tool {
     Boolean isAvailable = true;
 
     @ManyToOne
+    AppUser toolListedByUser;
+
+    @ManyToOne
     AppUser toolBorrowedByUser;
 
     public Tool(String name, String image, String description) {
@@ -65,5 +68,16 @@ public class Tool {
         isAvailable = available;
     }
 
+    public AppUser getToolBorrowedByUser() {
+        return toolBorrowedByUser;
+    }
+
+    public void setToolBorrowedByUser(AppUser toolBorrowedByUser) {
+        this.toolBorrowedByUser = toolBorrowedByUser;
+    }
+
+    public void setToolListedByUser(AppUser toolListedByUser) {
+        this.toolListedByUser = toolListedByUser;
+    }
 
 }

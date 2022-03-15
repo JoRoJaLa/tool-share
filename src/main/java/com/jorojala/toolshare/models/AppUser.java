@@ -17,13 +17,14 @@ public class AppUser implements UserDetails{
     String username;
     String password;
     String zipcode;
-    ArrayList toolsListed;
     Boolean admin = false;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "results_id", referencedColumnName = "id")
     Results results;
 
+    @OneToMany(mappedBy = "toolListedByUser", cascade = CascadeType.ALL)
+    List<Tool> toolsListed;
     @OneToMany(mappedBy = "toolBorrowedByUser", cascade = CascadeType.ALL)
     List<Tool> toolsBorrowed;
 
@@ -72,19 +73,24 @@ public class AppUser implements UserDetails{
         this.zipcode = zipcode;
     }
 
-    public ArrayList getToolsListed() {
+    public List<Tool> getToolsListed() {
         return toolsListed;
     }
 
-    public void setToolsListed(ArrayList toolsListed) {
+    public void setToolsListed(List<Tool> toolsListed) {
         this.toolsListed = toolsListed;
     }
 
-    public List getToolsBorrowed() {
+    public void addTooltoListedTools(Tool tool) {
+        if (toolsListed == null) toolsListed = new ArrayList<>();
+        this.toolsListed.add(tool);
+    }
+
+    public List<Tool> getToolsBorrowed() {
         return toolsBorrowed;
     }
 
-    public void setToolsBorrowed(List toolsBorrowed) {
+    public void setToolsBorrowed(List<Tool> toolsBorrowed) {
         this.toolsBorrowed = toolsBorrowed;
     }
 
