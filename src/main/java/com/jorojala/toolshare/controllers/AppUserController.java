@@ -71,8 +71,6 @@ public class AppUserController {
         return ("signup-page.html");
     }
 
-    @GetMapping("/createlisting")
-    public String getCreateListingsPage() { return ("tool-form.html");}
 
 
     @PostMapping("/add-listing")
@@ -112,6 +110,11 @@ public class AppUserController {
     @PostMapping("/signup")
     public RedirectView postSignup(String username, String password, String zipcode) throws IOException
     {
+
+        if(appUserRepository.existsByUsername(username)){
+            return new RedirectView("/signup");
+        }
+        //if (appUserRepository.findByUsername(username))
         // instantiate new user object
         AppUser newUser = new AppUser();
         newUser.setUsername(username);

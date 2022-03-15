@@ -2,10 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Tool Listings</title>
 </head>
 <body>
 <h1>Tool Listings:</h1>
+
 <div>
     <form action="/borrow-tool" th:method="post">
         <div th:each="tool : ${listOfTools}">
@@ -18,5 +19,6 @@
         </div>
     </form>
 </div>
+
 </body>
 </html>
