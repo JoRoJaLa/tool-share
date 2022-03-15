@@ -7,6 +7,18 @@
 <body>
 <h1>Tool Listings:</h1>
 
+<div>
+    <form action="/borrow-tool" th:method="post">
+        <div th:each="tool : ${listOfTools}">
+            <span>
+                <label th:text="${tool.name}" th:for="${tool.id}">
+                </label>
+                <input type="hidden" th:value="${tool.id}" name="toolId">
+                <input type="submit" value="Borrow this tool">
+            </span>
+        </div>
+    </form>
+</div>
 
 </body>
 </html>

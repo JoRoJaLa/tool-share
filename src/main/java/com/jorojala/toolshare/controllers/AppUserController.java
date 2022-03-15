@@ -22,6 +22,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.security.Principal;
+import java.util.List;
+import java.util.Optional;
 
 
 @Controller
@@ -83,6 +85,25 @@ public class AppUserController {
         return new RedirectView("/tool-listings");
     }
 
+    @GetMapping("/tool-listings")
+    public String getToolListings(Model m) {
+        List<Tool> listOfTools = toolRepository.findAll();
+        m.addAttribute("listOfTools", listOfTools);
+        return ("tool-listings-page.html");
+    }
+
+    @PostMapping("/borrow-tool")
+    public RedirectView borrowTool(Principal p, Long toolId) {
+        String username = p.getName();
+        AppUser currentUser = (AppUser) appUserRepository.findByUsername(username);
+        Tool toolToBorrow = toolRepository.getById(toolId);
+        //TODO handle non existent tool ids
+        toolToBorrow.setToolBorrowedByUser(currentUser);
+        toolToBorrow.setAvailable(false);
+        toolRepository.save(toolToBorrow);
+        return new RedirectView("/aboutus");
+    }
+
     @GetMapping("/aboutus")
     public  String getAboutUsPage() {return ("aboutus.html");}
 
@@ -97,7 +118,7 @@ public class AppUserController {
         // instantiate new user object
         AppUser newUser = new AppUser();
         newUser.setUsername(username);
-        //newUser.setZipcode(zipcode);
+        newUser.setZipcode(zipcode);
         // hash user password
         String hashedPassword = passwordEncoder.encode(password);
         // set user password to new hashed password
@@ -108,6 +129,7 @@ public class AppUserController {
         newUser.setZipcode(results[0].getPostcode());
 
         newUser.setResults(results[0]);
+
 
         // save newly instantiated user object in postgres
         appUserRepository.save(newUser);
