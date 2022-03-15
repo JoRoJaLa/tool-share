@@ -69,7 +69,7 @@ public class AppUser implements UserDetails{
         return zipcode;
     }
 
-    public void setZipcode(String zipCode) {
+    public void setZipcode(String zipcode) {
         this.zipcode = zipcode;
     }
 
