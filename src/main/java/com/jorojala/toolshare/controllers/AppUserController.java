@@ -22,8 +22,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.security.Principal;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Controller
@@ -50,11 +52,13 @@ public class AppUserController {
     }
     @GetMapping("/profile")
     public String getUserProfile(Principal p, Model m){
+        //TODO Add Return Buttons for the Tools
         String username = p.getName();
         AppUser currentUser = (AppUser) appUserRepository.findByUsername(username);
         m.addAttribute("username", username);
         m.addAttribute("zipcode", currentUser.getZipcode());
-        m.addAttribute("toolsListed", currentUser.getToolsListed());
+        m.addAttribute("listOfTools", currentUser.getToolsListed());
+        m.addAttribute("listOfBorrowedTools", currentUser.getToolsBorrowed());
         return ("profile.html");
 
     }
@@ -71,7 +75,8 @@ public class AppUserController {
         return ("signup-page.html");
     }
 
-
+    @GetMapping("/createlisting")
+    public String getCreateListingsPage() { return ("tool-form.html");}
 
     @PostMapping("/add-listing")
     public RedirectView postListing(Principal p, String tools) {
@@ -99,6 +104,7 @@ public class AppUserController {
         Tool toolToBorrow = toolRepository.getById(toolId);
         //TODO handle non existent tool ids
         toolToBorrow.setToolBorrowedByUser(currentUser);
+        currentUser.addTooltoBorrowedTools(toolToBorrow);
         toolToBorrow.setAvailable(false);
         toolRepository.save(toolToBorrow);
         return new RedirectView("/aboutus");
