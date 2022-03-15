@@ -29,11 +29,10 @@ public class AppUser implements UserDetails{
         // default constructor
     }
 
-    public AppUser(String username, String password, String zipcode, Results[] location) {
+    public AppUser(String username, String password, String zipcode) {
         this.username = username;
         this.password = password;
         this.zipcode = zipcode;
-        this.location = location;
     }
 
     public Long getId() {
