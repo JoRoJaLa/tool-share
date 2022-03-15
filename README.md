@@ -3,7 +3,7 @@
 ## Contributors
 - Hambalieu Jallow
 - Kevin LaMarca
-- Johsua McCluskey
+- Joshua McCluskey
 - Shane Roach
 
 ## Description
@@ -28,6 +28,7 @@ Tool Share is an app sharing platform where users can find and share tools withi
 #### Low Level
 - As a user, I want the ability to create an account, to save relevant personal information. 
 - As a user, I want the ability to login into the website, to access relevant account information.
+- As a user, I want to visit a site that is easy to navigate and accessible.
 - As a user, I want the ability to create a new tool posting.
 - As a user, I want the ability to search for a specific tool.
 - As a user, I want the ability to find specific tools filtered by closest distance to me.

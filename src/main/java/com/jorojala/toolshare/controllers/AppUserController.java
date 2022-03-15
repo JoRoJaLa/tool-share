@@ -4,6 +4,7 @@ import com.jorojala.toolshare.location_api.ZipToLatLon;
 import com.jorojala.toolshare.models.AppUser;
 import com.jorojala.toolshare.models.Location;
 import com.jorojala.toolshare.models.Tool;
+import com.jorojala.toolshare.models.Results;
 import com.jorojala.toolshare.repositories.AppUserRepository;
 import com.jorojala.toolshare.repositories.ToolRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +12,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.security.Principal;
 
@@ -42,6 +45,16 @@ public class AppUserController {
         String username =  p.getName();
         m.addAttribute("username", username);
         return ("index.html");
+    }
+    @GetMapping("/profile")
+    public String getUserProfile(Principal p, Model m){
+        String username = p.getName();
+        AppUser currentUser = (AppUser) appUserRepository.findByUsername(username);
+        m.addAttribute("username", username);
+        m.addAttribute("zipcode", currentUser.getZipcode());
+        m.addAttribute("toolsListed", currentUser.getToolsListed());
+        return ("profile.html");
+
     }
 
     @GetMapping("/login")
@@ -85,24 +98,23 @@ public class AppUserController {
         // instantiate new user object
         AppUser newUser = new AppUser();
         newUser.setUsername(username);
-        newUser.setZipcode(zipcode);
+        //newUser.setZipcode(zipcode);
         // hash user password
         String hashedPassword = passwordEncoder.encode(password);
         // set user password to new hashed password
         newUser.setPassword(hashedPassword);
-        //set user location via ZipToLatLon API call
-//        ZipToLatLon zipToLatLon = new  ZipToLatLon();
-//
-//        Location location = zipToLatLon.getLocation(zipcode);
-//        newUser.setLocation(location.getResults());
+        Location location = ZipToLatLon.getLocation(zipcode);
+
+        Results[] results = location.getResults();
+        newUser.setZipcode(results[0].getPostcode());
+
+        newUser.setResults(results[0]);
 
         // save newly instantiated user object in postgres
         appUserRepository.save(newUser);
         authWithHttpServletRequest(username, password);
         return new RedirectView("/");
     }
-
-
 
     public void authWithHttpServletRequest(String username, String password)
     {
@@ -112,6 +124,15 @@ public class AppUserController {
             System.out.println("Error: Servlet Exception");
             SE.printStackTrace();
         }
+    }
+
+    @PostMapping("/logout")
+    public RedirectView logOutUserAndGetLogin(HttpServletRequest request)
+    {
+        HttpSession session = request.getSession();
+        session.invalidate();
+
+        return new RedirectView("/login");
     }
 }
 
