@@ -59,6 +59,9 @@ public class AppUserController {
 
     }
 
+    @GetMapping("/createlisting")
+    public String getCreateListingsPage() { return ("tool-form.html");}
+
     @GetMapping("/login")
     public String getLoginPage()
     {
@@ -93,14 +96,17 @@ public class AppUserController {
     }
 
     @PostMapping("/borrow-tool")
-    public RedirectView borrowTool(Principal p, Long toolId) {
+    public RedirectView borrowTool(Principal p, Long toolId) throws IOException {
         String username = p.getName();
         AppUser currentUser = (AppUser) appUserRepository.findByUsername(username);
         Tool toolToBorrow = toolRepository.getById(toolId);
-        //TODO handle non existent tool ids
-        toolToBorrow.setToolBorrowedByUser(currentUser);
-        toolToBorrow.setAvailable(false);
-        toolRepository.save(toolToBorrow);
+        if (toolToBorrow != null && toolToBorrow.getAvailable() && !toolToBorrow.getToolListedByUser().equals(currentUser)) {
+            toolToBorrow.setToolBorrowedByUser(currentUser);
+            toolToBorrow.setAvailable(false);
+            toolRepository.save(toolToBorrow);
+        } else {
+            throw new IOException("Tool not available to borrow");
+        }
         return new RedirectView("/aboutus");
     }
 

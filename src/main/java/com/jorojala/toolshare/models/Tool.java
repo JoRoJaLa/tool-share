@@ -76,6 +76,10 @@ public class Tool {
         this.toolBorrowedByUser = toolBorrowedByUser;
     }
 
+    public AppUser getToolListedByUser() {
+        return toolListedByUser;
+    }
+
     public void setToolListedByUser(AppUser toolListedByUser) {
         this.toolListedByUser = toolListedByUser;
     }
