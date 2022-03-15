@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.security.Principal;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -54,14 +55,19 @@ public class AppUserController {
     }
     @GetMapping("/profile")
     public String getUserProfile(Principal p, Model m){
+        //TODO Add Return Buttons for the Tools
         String username = p.getName();
         AppUser currentUser = (AppUser) appUserRepository.findByUsername(username);
         m.addAttribute("username", username);
         m.addAttribute("zipcode", currentUser.getZipcode());
-        m.addAttribute("toolsListed", currentUser.getToolsListed());
+        m.addAttribute("listOfTools", currentUser.getToolsListed());
+        m.addAttribute("listOfBorrowedTools", currentUser.getToolsBorrowed());
         return ("profile.html");
 
     }
+
+    @GetMapping("/createlisting")
+    public String getCreateListingsPage() { return ("tool-form.html");}
 
     @GetMapping("/login")
     public String getLoginPage()
@@ -75,7 +81,8 @@ public class AppUserController {
         return ("signup-page.html");
     }
 
-
+    @GetMapping("/createlisting")
+    public String getCreateListingsPage() { return ("tool-form.html");}
 
     @PostMapping("/add-listing")
     public RedirectView postListing(Principal p, String tools) {
@@ -105,14 +112,19 @@ public class AppUserController {
 
 
     @PostMapping("/borrow-tool")
-    public RedirectView borrowTool(Principal p, Long toolId) {
+    public RedirectView borrowTool(Principal p, Long toolId) throws IOException {
         String username = p.getName();
         AppUser currentUser = (AppUser) appUserRepository.findByUsername(username);
         Tool toolToBorrow = toolRepository.getById(toolId);
-        //TODO handle non existent tool ids
-        toolToBorrow.setToolBorrowedByUser(currentUser);
-        toolToBorrow.setAvailable(false);
-        toolRepository.save(toolToBorrow);
+
+        if (toolToBorrow != null && toolToBorrow.getAvailable() && !toolToBorrow.getToolListedByUser().equals(currentUser)) {
+            toolToBorrow.setToolBorrowedByUser(currentUser);
+            toolToBorrow.setAvailable(false);
+            toolRepository.save(toolToBorrow);
+        } else {
+            throw new IOException("Tool not available to borrow");
+        }
+
         return new RedirectView("/aboutus");
     }
 

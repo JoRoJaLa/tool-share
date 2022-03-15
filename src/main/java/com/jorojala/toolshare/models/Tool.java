@@ -1,6 +1,7 @@
 package com.jorojala.toolshare.models;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 
 @Entity
 public class Tool {
@@ -11,6 +12,8 @@ public class Tool {
     String image;
     String description;
     Boolean isAvailable = true;
+
+
 
     @ManyToOne
     AppUser toolListedByUser;
@@ -27,6 +30,7 @@ public class Tool {
     public Tool() {
         // default constructor
     }
+
 
     public Long getId() {
         return id;
@@ -74,6 +78,10 @@ public class Tool {
 
     public void setToolBorrowedByUser(AppUser toolBorrowedByUser) {
         this.toolBorrowedByUser = toolBorrowedByUser;
+    }
+
+    public AppUser getToolListedByUser() {
+        return toolListedByUser;
     }
 
     public void setToolListedByUser(AppUser toolListedByUser) {

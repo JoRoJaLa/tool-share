@@ -12,10 +12,18 @@
 
 <h2 th:text="${'Username: ' + username}"></h2>
 <h2 th:text="${'Zip Code: ' + zipcode}"></h2>
-<li th:each="tool : ${toolsListed}">
+
+<h2 th:text="${'Tools Listed by' + username} "></h2>
+<li th:each="tool : ${listOfTools}">
     <br><span th:text="${'Tool: ' + tool.name}"></span>
     <br><span th:text="${'Description: ' + tool.description}"></span>
-    <br><span th:text="${'Availability: ' + tool.isAvailable}"></span>
+<!--    <br><span th:text="${'Availability: ' + tool.isAvailable}"></span>-->
+</li>
+<h2 th:text="${'Tools Borrowed by' + username} "></h2>
+<li th:each="tool : ${listOfBorrowedTools}">
+    <br><span th:text="${'Tool: ' + tool.name}"></span>
+    <br><span th:text="${'Description: ' + tool.description}"></span>
+    <!--    <br><span th:text="${'Availability: ' + tool.isAvailable}"></span>-->
 </li>
 </body>
 </html>

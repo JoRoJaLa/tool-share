@@ -85,6 +85,10 @@ public class AppUser implements UserDetails{
         if (toolsListed == null) toolsListed = new ArrayList<>();
         this.toolsListed.add(tool);
     }
+    public void addTooltoBorrowedTools(Tool tool) {
+        if (toolsBorrowed == null) toolsBorrowed = new ArrayList<>();
+        this.toolsBorrowed.add(tool);
+    }
 
     public List<Tool> getToolsBorrowed() {
         return toolsBorrowed;
