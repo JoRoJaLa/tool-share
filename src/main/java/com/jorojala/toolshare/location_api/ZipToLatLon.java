@@ -12,48 +12,49 @@ import java.net.URL;
 
 public class ZipToLatLon {
 
-    public Location getLocation (String zipcode) throws IOException {
+    public static Location getLocation(String zipcode) throws IOException {
 
         String userZip = zipcode;
         String apiKey = "c12e8307e3d94229aff21166b9e6e2fc";
 
-        URL url = new URL("https://api.geoapify.com/v1/geocode/search?postcode=" + userZip + "&filter=countrycode:us&format=json&apiKey=" + apiKey);
-        HttpURLConnection zipHttp = (HttpURLConnection)url.openConnection();
-        zipHttp.setRequestProperty("Accept", "application/json");
+        Location location = null;
+        try {
+            URL url = new URL("https://api.geoapify.com/v1/geocode/search?postcode=" + userZip + "&filter=countrycode:us&format=json&apiKey=" + apiKey);
+            HttpURLConnection zipHttp = (HttpURLConnection) url.openConnection();
+            zipHttp.setRequestProperty("Accept", "application/json");
 
-        System.out.println(zipHttp.getResponseCode() + " " + zipHttp.getResponseMessage());
+            System.out.println(zipHttp.getResponseCode() + " " + zipHttp.getResponseMessage());
 
-        InputStreamReader zipInputStreamReader = new InputStreamReader(zipHttp.getInputStream());
-        BufferedReader zipBufferedReader = new BufferedReader(zipInputStreamReader);
+            InputStreamReader zipInputStreamReader = new InputStreamReader(zipHttp.getInputStream());
+            BufferedReader zipBufferedReader = new BufferedReader(zipInputStreamReader);
 
-        String zipLine = zipBufferedReader.readLine();
+            String zipLine = zipBufferedReader.readLine();
 
-        Gson gson =  new GsonBuilder().setPrettyPrinting().create();
-        Location location = gson.fromJson(zipLine, Location.class);
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            location = gson.fromJson(zipLine, Location.class);
 
-        //System.out.println(location);
-        String locationJson = gson.toJson(location);
-        System.out.println(locationJson);
-        zipHttp.disconnect();
-        // This is change
+            String locationJson = gson.toJson(location);
 
-//        double exampleDistance = latLongDist(44.365390444, -121.164903327, 44.018753324,-123.091603893);
-//        System.out.println(exampleDistance);
+            zipHttp.disconnect();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Cannot access Location API.");
+        }
 
-        return location ;
+        return location;
     }
 
 
     private static double latLongDist(double lat1, double lng1, double lat2, double lng2) {
         double earthRadius = 6371000; //meters
-        double dLat = Math.toRadians(lat2-lat1);
-        double dLng = Math.toRadians(lng2-lng1);
-        double a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+        double dLat = Math.toRadians(lat2 - lat1);
+        double dLng = Math.toRadians(lng2 - lng1);
+        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
                 Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
-                        Math.sin(dLng/2) * Math.sin(dLng/2);
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+                        Math.sin(dLng / 2) * Math.sin(dLng / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         double dist = (earthRadius * c);
-        double distMiles = (0.00062137119224*dist);
+        double distMiles = (0.00062137119224 * dist);
 
         return distMiles;
     }
