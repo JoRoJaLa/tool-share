@@ -10,11 +10,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.security.Principal;
 
@@ -38,6 +40,16 @@ public class AppUserController {
         String username =  p.getName();
         m.addAttribute("username", username);
         return ("index.html");
+    }
+    @GetMapping("/profile")
+    public String getUserProfile(Principal p, Model m){
+        String username = p.getName();
+        AppUser currentUser = (AppUser) appUserRepository.findByUsername(username);
+        m.addAttribute("username", username);
+        m.addAttribute("zipcode", currentUser.getZipcode());
+        m.addAttribute("toolsListed", currentUser.getToolsListed());
+        return ("profile.html");
+
     }
 
     @GetMapping("/login")
@@ -79,8 +91,6 @@ public class AppUserController {
         return new RedirectView("/");
     }
 
-
-
     public void authWithHttpServletRequest(String username, String password)
     {
         try {
@@ -89,6 +99,15 @@ public class AppUserController {
             System.out.println("Error: Servlet Exception");
             SE.printStackTrace();
         }
+    }
+
+    @PostMapping("/logout")
+    public RedirectView logOutUserAndGetLogin(HttpServletRequest request)
+    {
+        HttpSession session = request.getSession();
+        session.invalidate();
+
+        return new RedirectView("/login");
     }
 }
 
