@@ -126,10 +126,11 @@ public class AppUserController {
     public  String getAboutUsPage() {return ("aboutus.html");}
 
     @PostMapping("/signup")
-    public RedirectView postSignup(String username, String password, String zipcode) throws IOException
+    public RedirectView postSignup(String username, String password, String zipcode, RedirectAttributes redir) throws IOException
     {
 
         if(appUserRepository.existsByUsername(username)){
+            redir.addFlashAttribute("errorMessage", "Username is already taken! Please choose a different username!");
             return new RedirectView("/signup");
         }
         //if (appUserRepository.findByUsername(username))
