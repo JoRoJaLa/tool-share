@@ -104,21 +104,21 @@ public class AppUserController {
     }
 
 
-    @GetMapping("/tool-listings")
-    public String getToolListings(Model m, Principal p) {
-        AppUser currentUser = (AppUser) appUserRepository.findByUsername(p.getName());
-        List<Tool> originalListOfTools = toolRepository.findAll();
-
-        List<Tool> listOfTools = originalListOfTools.stream()
-                .filter(Tool::getAvailable)
-                .filter(tool -> !tool.getToolListedByUser().equals(currentUser))
-                .collect(Collectors.toList());
-        List<String> toolOwners = listOfTools.stream().map(tool -> tool.getToolListedByUser().getUsername()).toList();
-
-        m.addAttribute("toolOwners", toolOwners);
-        m.addAttribute("listOfTools", listOfTools);
-        return ("tool-listings-page.html");
-    }
+//    @GetMapping("/tool-listings")
+//    public String getToolListings(Model m, Principal p) {
+//        AppUser currentUser = (AppUser) appUserRepository.findByUsername(p.getName());
+//        List<Tool> originalListOfTools = toolRepository.findAll();
+//
+//        List<Tool> listOfTools = originalListOfTools.stream()
+//                .filter(Tool::getAvailable)
+//                .filter(tool -> !tool.getToolListedByUser().equals(currentUser))
+//                .collect(Collectors.toList());
+//        List<String> toolOwners = listOfTools.stream().map(tool -> tool.getToolListedByUser().getUsername()).toList();
+//
+//        m.addAttribute("toolOwners", toolOwners);
+//        m.addAttribute("listOfTools", listOfTools);
+//        return ("tool-listings-page.html");
+//    }
 
 
 
