@@ -12,6 +12,7 @@ public class Tool {
     String image;
     String description;
     Boolean isAvailable = true;
+    double distanceFromUser;
 
 
 
@@ -88,4 +89,11 @@ public class Tool {
         this.toolListedByUser = toolListedByUser;
     }
 
+    public double getDistanceFromUser() {
+        return distanceFromUser;
+    }
+
+    public void setDistanceFromUser(double distanceFromUser) {
+        this.distanceFromUser = distanceFromUser;
+    }
 }

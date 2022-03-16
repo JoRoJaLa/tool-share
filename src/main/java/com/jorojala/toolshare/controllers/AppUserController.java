@@ -90,17 +90,7 @@ public class AppUserController {
         return new RedirectView("/tool-listings");
     }
 
-    @GetMapping("/tool-listings")
-    public String getToolListings(Model m) {
-        List<Tool> originalListOfTools = toolRepository.findAll();
 
-        List<Tool> listOfTools = originalListOfTools.stream()
-                .filter(Tool::getAvailable)
-                .collect(Collectors.toList());
-
-        m.addAttribute("listOfTools", listOfTools);
-        return ("tool-listings-page.html");
-    }
 
 
 
@@ -133,20 +123,18 @@ public class AppUserController {
             redir.addFlashAttribute("errorMessage", "Username is already taken! Please choose a different username!");
             return new RedirectView("/signup");
         }
-        //if (appUserRepository.findByUsername(username))
-        // instantiate new user object
         AppUser newUser = new AppUser();
         newUser.setUsername(username);
         newUser.setZipcode(zipcode);
-        // hash user password
+
         String hashedPassword = passwordEncoder.encode(password);
-        // set user password to new hashed password
         newUser.setPassword(hashedPassword);
+
         Location location = ZipToLatLon.getLocation(zipcode);
         Results[] results = location.getResults();
         newUser.setZipcode(results[0].getPostcode());
         newUser.setResults(results[0]);
-        // save newly instantiated user object in postgres
+
         appUserRepository.save(newUser);
         authWithHttpServletRequest(username, password);
         return new RedirectView("/");
