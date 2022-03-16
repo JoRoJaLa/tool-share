@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100&display=swap" rel="stylesheet">
-
+  
 <style>
 div.tool {
 width: 30%;
@@ -81,6 +81,7 @@ margin-bottom: 25px;
                 <p th:text="${'City: ' + tool.getToolListedByUser().getResults().getCity()}"></p>
                 <p th:text="${'State: ' + tool.getToolListedByUser().getResults().getState()}"></p>
                 <p th:text="${'Name: ' + tool.getToolListedByUser().getUsername}"></p>
+                <br><img th:src="${tool.image}" class="toolIcon">
                 <form action="/borrow-tool" th:method="post">
                 <input type="hidden" th:value="${tool.id}" name="toolId">
                 <input type="submit" value="Borrow this tool">
@@ -95,11 +96,6 @@ margin-bottom: 25px;
         </div>
 
 </div>
-
-
-
-
-
 
 
 </body>

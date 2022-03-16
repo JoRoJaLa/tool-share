@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -83,6 +84,18 @@ public class AppUserController {
         String username = p.getName();
         AppUser currentUser = (AppUser) appUserRepository.findByUsername(username);
         Tool newTool = new Tool();
+        if (tools.equals("drill")){
+            newTool.setImage("images/drill.png");
+        }
+        else if (tools.equals("crowbar")){
+            newTool.setImage("images/crowbar.png");
+        }
+        else if (tools.equals("sledgehammer")){
+            newTool.setImage("images/sledgehammer.png");
+        }
+        else if (tools.equals("circular saw")){
+            newTool.setImage("images/circularsaw.png");
+        }
         newTool.setName(tools);
         newTool.setToolListedByUser(currentUser);
         newTool.setAvailable(true);
@@ -90,6 +103,22 @@ public class AppUserController {
         return new RedirectView("/tool-listings");
     }
 
+
+    @GetMapping("/tool-listings")
+    public String getToolListings(Model m, Principal p) {
+        AppUser currentUser = (AppUser) appUserRepository.findByUsername(p.getName());
+        List<Tool> originalListOfTools = toolRepository.findAll();
+
+        List<Tool> listOfTools = originalListOfTools.stream()
+                .filter(Tool::getAvailable)
+                .filter(tool -> !tool.getToolListedByUser().equals(currentUser))
+                .collect(Collectors.toList());
+        List<String> toolOwners = listOfTools.stream().map(tool -> tool.getToolListedByUser().getUsername()).toList();
+
+        m.addAttribute("toolOwners", toolOwners);
+        m.addAttribute("listOfTools", listOfTools);
+        return ("tool-listings-page.html");
+    }
 
 
 
@@ -108,6 +137,22 @@ public class AppUserController {
         } else {
             throw new IOException("Tool not available to borrow");
         }
+
+        return new RedirectView("/profile");
+    }
+
+    @PutMapping("/return-tool")
+    public RedirectView returnTool(Principal p, Long toolId){
+        String username = p.getName();
+        AppUser currentUser = (AppUser) appUserRepository.findByUsername(username);
+        Tool toolToReturn = toolRepository.getById(toolId);
+        toolToReturn.setAvailable(true);
+        toolToReturn.setToolBorrowedByUser(null);
+        List<Tool> toolsBorrowed = currentUser.getToolsBorrowed();
+        List<Tool> updatedBorrowedTools = toolsBorrowed.stream().filter(tool -> !tool.equals(toolToReturn)).toList();
+        currentUser.setToolsBorrowed(updatedBorrowedTools);
+        toolRepository.save(toolToReturn);
+        appUserRepository.save(currentUser);
 
         return new RedirectView("/profile");
     }

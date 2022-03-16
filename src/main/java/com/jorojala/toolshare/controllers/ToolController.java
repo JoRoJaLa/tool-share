@@ -76,6 +76,7 @@ public class ToolController {
     public String getToolListingsByCity(Model m, String city){
         List<Tool> originalListOfTools = toolRepository.findAll();
 
+
         List<Tool> listOfTools = originalListOfTools.stream()
                 .filter(tool -> tool.getToolListedByUser().getResults().getCity().equals(city))
                 .filter(Tool::getAvailable)
@@ -146,7 +147,6 @@ public class ToolController {
 
         return ("tool-listings-page.html");
     }
-
 
 
 }

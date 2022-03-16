@@ -14,31 +14,37 @@
 
 <body>
 <h1>Profile Info</h1>
+<div class="navbar">
+    <a href="http://localhost:8080/createlisting">Create a Tool Listing</a>
+    <a href="http://localhost:8080/tool-listings">Tool Listings</a>
 
-<a href="/createlisting">Create a Tool Listing</a>
+    <a href="http://localhost:8080/aboutus">About Us</a>
 
-<a href="/tool-listings">Tool Listings</a>
+    <a href="http://localhost:8080/profile">Profile</a>
 
-<a href="/aboutus">About Us</a>
+    <a href="http://localhost:8080/logout">Log Out</a>
+</div>
 
-<a href="/logout">Log Out</a>
-
-<a href="/profile">Profile</a>
 
 <h2 th:text="${'Username: ' + username}"></h2>
 <h2 th:text="${'Zip Code: ' + zipcode}"></h2>
 
-<h2 th:text="${'Tools Listed by' + username} "></h2>
+<h2 th:text="${'Tools Listed by ' + username} "></h2>
 <li th:each="tool : ${listOfTools}">
-    <br><span th:text="${'Tool: ' + tool.name}"></span>
-    <br><span th:text="${'Description: ' + tool.description}"></span>
-<!--    <br><span th:text="${'Availability: ' + tool.isAvailable}"></span>-->
-</li>
-<h2 th:text="${'Tools Borrowed by' + username} "></h2>
-<li th:each="tool : ${listOfBorrowedTools}">
     <br><span th:text="${'Tool: ' + tool.name}"></span>
     <br><span th:text="${'Description: ' + tool.description}"></span>
     <!--    <br><span th:text="${'Availability: ' + tool.isAvailable}"></span>-->
 </li>
+<h2 th:text="${'Tools Borrowed by ' + username} "></h2>
+<form action="/return-tool" th:method="put">
+    <div th:each="tool : ${listOfBorrowedTools}">
+            <span>
+                <label th:text="${tool.name}" th:for="${tool.id}">
+                </label>
+                <input type="hidden" th:value="${tool.id}" name="toolId">
+                <input type="submit" value="Return this tool">
+            </span>
+    </div>
+</form>
 </body>
 </html>
