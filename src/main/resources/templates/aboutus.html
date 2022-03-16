@@ -18,18 +18,10 @@
 
 </style>
 <body>
+<div th:insert="fragments/nav-header :: header"></div>
 <header><h1>About Us</h1></header>
-<div class="navbar">
-    <a href="http://localhost:8080/createlisting">Create a Tool Listing</a>
+<div class="navbar" th:insert="fragments/nav-header :: menu"></div>
 
-    <a href="http://localhost:8080/tool-listings">Tool Listings</a>
-
-    <a href="http://localhost:8080/aboutus">About Us</a>
-
-    <a href="http://localhost:8080/profile">Profile</a>
-
-    <a href="http://localhost:8080/logout">Log Out</a>
-</div>
 
 <main>
     <div class="developer">
@@ -79,6 +71,6 @@
     </div>
 </main>
 
-<footer>&copy; JoRoJaLa</footer>
+<div class="footer" th:insert="fragments/nav-header :: footer"></div>
 </body>
 </html>

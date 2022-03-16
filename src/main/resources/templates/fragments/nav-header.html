@@ -5,15 +5,32 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100&display=swap" rel="stylesheet">
+    <title>Document</title>
 </head>
-<body>
+<header th:fragment="header">
+    <h1>Tool Share</h1>
+    <h3 th:text="${'Current User: ' + username}"></h3>
+</header>
 
-<h1>Hello World</h1>
+<nav th:fragment="menu">
+
+    <a th:href="@{/home}">Home</a>
+    <a th:href="@{/profile}">Profile</a>
+    <a th:href="@{/createlisting}">Create a Tool Listing</a>
+    <a th:href="@{/tool-listings}">Tool Listings</a>
+    <a th:href="@{/aboutus}">About Us</a>
+    <a th:href="@{/logout}">Log Out</a>
+
+</nav>
+
+<footer th:fragment="footer">
+    <p>&copy; 2022 Tool Share JoRoJaLa</p>
+</footer>
+<body>
 
 </body>
 </html>
