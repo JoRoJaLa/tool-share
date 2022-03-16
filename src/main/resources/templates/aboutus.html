@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -19,17 +19,36 @@
 </style>
 <body>
 <header><h1>About Us</h1></header>
-<div class="navbar">
-    <a href="http://localhost:8080/createlisting">Create a Tool Listing</a>
+<div th:if="${username}">
+    <div class="navbar">
+        <a href="/home">Home</a>
 
-    <a href="http://localhost:8080/tool-listings">Tool Listings</a>
+        <a href="/createlisting">Create a Tool Listing</a>
 
-    <a href="http://localhost:8080/aboutus">About Us</a>
+        <a href="/tool-listings">Tool Listings</a>
 
-    <a href="http://localhost:8080/profile">Profile</a>
+        <a href="/aboutus">About Us</a>
 
-    <a href="http://localhost:8080/logout">Log Out</a>
+        <a href="/profile">Profile</a>
+
+        <a href="/logout">Log Out</a>
+    </div>
 </div>
+
+<div th:unless="${username}">
+    <div class="navbar">
+        <a href="/home">Home</a>
+
+        <a href="/login"> Login </a>
+
+        <a href="/signup"> Sign Up </a>
+
+        <a href="/aboutus">About Us</a>
+
+    </div>
+</div>
+
+
 
 <main>
     <div class="developer">
