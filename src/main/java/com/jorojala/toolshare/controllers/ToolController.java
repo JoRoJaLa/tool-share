@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.security.Principal;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -106,6 +107,45 @@ public class ToolController {
         return ("tool-listings-page.html");
     }
 
+
+
+
+
+    @GetMapping("/filter-distance-miles")
+    public String getFilterDistanceMiles(Principal p, Model m) {
+        String username = null;
+        if (p != null) {
+            username = p.getName();
+        }
+
+        AppUser currentUser = (AppUser) appUserRepository.findByUsername(username);
+        double currentUserLat = currentUser.getResults().getLat();
+        double currentUserLon = currentUser.getResults().getLon();
+
+        List<Tool> originalListOfTools = toolRepository.findAll();
+
+
+        for (Tool tool : originalListOfTools) {
+            Tool toolOfOwner = toolRepository.getById(tool.getId());
+            double userToolOfOwnerLat = toolOfOwner.getToolListedByUser().getResults().getLat();
+            double userToolOfOwnerLon = toolOfOwner.getToolListedByUser().getResults().getLon();
+
+            double distanceBetweenUsers = ZipToLatLon.latLongDist(currentUserLat,currentUserLon,userToolOfOwnerLat,userToolOfOwnerLon);
+            tool.setDistanceFromUser(distanceBetweenUsers);
+        }
+
+        Comparator<Tool> toolComparator = Comparator.comparing(Tool::getDistanceFromUser);
+
+        List<Tool> listOfTools = originalListOfTools.stream()
+                .sorted(toolComparator)
+                .filter(Tool::getAvailable)
+                .collect(Collectors.toList());
+
+
+        m.addAttribute("listOfTools", listOfTools);
+
+        return ("tool-listings-page.html");
+    }
 
 
 

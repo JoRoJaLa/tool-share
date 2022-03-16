@@ -62,6 +62,12 @@ margin-bottom: 25px;
     </form>
 </div>
 
+<div>
+    <form action="/filter-distance-miles" th:method="get">
+        <input type="submit" value="Filter by distance miles">
+    </form>
+</div>
+
 
 
 <h2 th:text="${'Distance: ' + distanceBetweenUsers + ' miles'}"></h2>
