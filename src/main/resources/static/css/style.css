@@ -55,9 +55,10 @@ list-style: none;
 footer{
   background-color: #555;
   border-radius: 10px;
-  height: 30vw;
+  height: 10vw;
   color: #9FCDAF;
   text-align: center;
+  padding: 5 vw;
   }
 
 @media screen and (max-width: 500px) {

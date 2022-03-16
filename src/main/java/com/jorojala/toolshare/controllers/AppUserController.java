@@ -42,9 +42,9 @@ public class AppUserController {
     private HttpServletRequest request;
 
     @GetMapping("/")
-    public String getSplash(Principal p, Model m){
+    public String getSplash(Principal p, Model m) {
         String username = null;
-        if (p!=null){
+        if (p != null) {
             username = p.getName();
         }
         m.addAttribute("username", username);
@@ -53,161 +53,160 @@ public class AppUserController {
 
     @GetMapping("/home")
 
-    public String getHome(Model m, Principal p){
+    public String getHome(Model m, Principal p) {
         String username = null;
-        if (p!=null){
+        if (p != null) {
             username = p.getName();
         }
         m.addAttribute("username", username);
-        return ("splash.html");
-
-
-    @GetMapping("/profile")
-    public String getUserProfile(Principal p, Model m){
-        //TODO Add Return Buttons for the Tools
-        String username = p.getName();
-        AppUser currentUser = (AppUser) appUserRepository.findByUsername(username);
-        m.addAttribute("username", username);
-        m.addAttribute("zipcode", currentUser.getZipcode());
-        m.addAttribute("listOfTools", currentUser.getToolsListed());
-        m.addAttribute("listOfBorrowedTools", currentUser.getToolsBorrowed());
-        return ("profile.html");
-
-    }
-
-    @GetMapping("/login")
-    public String getLoginPage()
-    {
-        return ("login-page.html");
-    }
-
-    @GetMapping("/signup")
-    public String getSignupPage()
-    {
-        return ("signup-page.html");
-    }
-
-    @GetMapping("/createlisting")
-    public String getCreateListingsPage(Principal p, Model m) {
-        String username =  p.getName();
-        AppUser currentUser = (AppUser) appUserRepository.findByUsername(username);
-        m.addAttribute("username", currentUser.getUsername());
-        return ("tool-form.html");
-    }
-
-    @PostMapping("/add-listing")
-    public RedirectView postListing(Principal p, String tools) {
-        String username = p.getName();
-        AppUser currentUser = (AppUser) appUserRepository.findByUsername(username);
-        Tool newTool = new Tool();
-        if (tools.equals("drill")){
-            newTool.setImage("images/drill.png");
-        }
-        else if (tools.equals("crowbar")){
-            newTool.setImage("images/crowbar.png");
-        }
-        else if (tools.equals("sledgehammer")){
-            newTool.setImage("images/sledgehammer.png");
-        }
-        else if (tools.equals("circular saw")){
-            newTool.setImage("images/circularsaw.png");
-        }
-        newTool.setName(tools);
-        newTool.setToolListedByUser(currentUser);
-        newTool.setAvailable(true);
-        toolRepository.save(newTool);
-        return new RedirectView("/tool-listings");
+        return ("index.html");
     }
 
 
+        @GetMapping("/profile")
+        public String getUserProfile (Principal p, Model m){
+            //TODO Add Return Buttons for the Tools
+            String username = p.getName();
+            AppUser currentUser = (AppUser) appUserRepository.findByUsername(username);
+            m.addAttribute("username", username);
+            m.addAttribute("zipcode", currentUser.getZipcode());
+            m.addAttribute("listOfTools", currentUser.getToolsListed());
+            m.addAttribute("listOfBorrowedTools", currentUser.getToolsBorrowed());
+            return ("profile.html");
 
-    @PostMapping("/borrow-tool")
-    public RedirectView borrowTool(Principal p, Long toolId) throws IOException {
-        String username = p.getName();
-        AppUser currentUser = (AppUser) appUserRepository.findByUsername(username);
-        Tool toolToBorrow = toolRepository.getById(toolId);
-
-        if (toolToBorrow != null && toolToBorrow.getAvailable() && !toolToBorrow.getToolListedByUser().equals(currentUser)) {
-            toolToBorrow.setToolBorrowedByUser(currentUser);
-            toolToBorrow.setAvailable(false);
-            toolRepository.save(toolToBorrow);
-        } else {
-            throw new IOException("Tool not available to borrow");
         }
 
-        return new RedirectView("/profile");
-    }
-
-    @PutMapping("/return-tool")
-    public RedirectView returnTool(Principal p, Long toolId){
-        String username = p.getName();
-        AppUser currentUser = (AppUser) appUserRepository.findByUsername(username);
-        Tool toolToReturn = toolRepository.getById(toolId);
-        toolToReturn.setAvailable(true);
-        toolToReturn.setToolBorrowedByUser(null);
-        List<Tool> toolsBorrowed = currentUser.getToolsBorrowed();
-        List<Tool> updatedBorrowedTools = toolsBorrowed.stream().filter(tool -> !tool.equals(toolToReturn)).toList();
-        currentUser.setToolsBorrowed(updatedBorrowedTools);
-        toolRepository.save(toolToReturn);
-        appUserRepository.save(currentUser);
-
-        return new RedirectView("/profile");
-    }
-
-    @GetMapping("/aboutus")
-    public  String getAboutUsPage(Principal p, Model m) {
-
-        String username = null;
-        if (p!=null){
-            username = p.getName();
+        @GetMapping("/login")
+        public String getLoginPage ()
+        {
+            return ("login-page.html");
         }
-        m.addAttribute("username", username);
-        return ("aboutus.html");
-    }
 
-
-    @PostMapping("/signup")
-    public RedirectView postSignup(String username, String password, String zipcode, RedirectAttributes redir) throws IOException
-    {
-
-        if(appUserRepository.existsByUsername(username)){
-            redir.addFlashAttribute("errorMessage", "Username is already taken! Please choose a different username!");
-            return new RedirectView("/signup");
+        @GetMapping("/signup")
+        public String getSignupPage ()
+        {
+            return ("signup-page.html");
         }
-        AppUser newUser = new AppUser();
-        newUser.setUsername(username);
-        newUser.setZipcode(zipcode);
 
-        String hashedPassword = passwordEncoder.encode(password);
-        newUser.setPassword(hashedPassword);
+        @GetMapping("/createlisting")
+        public String getCreateListingsPage (Principal p, Model m){
+            String username = p.getName();
+            AppUser currentUser = (AppUser) appUserRepository.findByUsername(username);
+            m.addAttribute("username", currentUser.getUsername());
+            return ("tool-form.html");
+        }
 
-        Location location = ZipToLatLon.getLocation(zipcode);
-        Results[] results = location.getResults();
-        newUser.setZipcode(results[0].getPostcode());
-        newUser.setResults(results[0]);
+        @PostMapping("/add-listing")
+        public RedirectView postListing (Principal p, String tools){
+            String username = p.getName();
+            AppUser currentUser = (AppUser) appUserRepository.findByUsername(username);
+            Tool newTool = new Tool();
+            if (tools.equals("drill")) {
+                newTool.setImage("images/drill.png");
+            } else if (tools.equals("crowbar")) {
+                newTool.setImage("images/crowbar.png");
+            } else if (tools.equals("sledgehammer")) {
+                newTool.setImage("images/sledgehammer.png");
+            } else if (tools.equals("circular saw")) {
+                newTool.setImage("images/circularsaw.png");
+            }
+            newTool.setName(tools);
+            newTool.setToolListedByUser(currentUser);
+            newTool.setAvailable(true);
+            toolRepository.save(newTool);
+            return new RedirectView("/tool-listings");
+        }
 
-        appUserRepository.save(newUser);
-        authWithHttpServletRequest(username, password);
-        return new RedirectView("/");
-    }
 
-    public void authWithHttpServletRequest(String username, String password)
-    {
-        try {
-            request.login(username, password);
-        } catch(ServletException SE) {
-            System.out.println("Error: Servlet Exception");
-            SE.printStackTrace();
+        @PostMapping("/borrow-tool")
+        public RedirectView borrowTool (Principal p, Long toolId) throws IOException {
+            String username = p.getName();
+            AppUser currentUser = (AppUser) appUserRepository.findByUsername(username);
+            Tool toolToBorrow = toolRepository.getById(toolId);
+
+            if (toolToBorrow != null && toolToBorrow.getAvailable() && !toolToBorrow.getToolListedByUser().equals(currentUser)) {
+                toolToBorrow.setToolBorrowedByUser(currentUser);
+                toolToBorrow.setAvailable(false);
+                toolRepository.save(toolToBorrow);
+            } else {
+                throw new IOException("Tool not available to borrow");
+            }
+
+            return new RedirectView("/profile");
+        }
+
+        @PutMapping("/return-tool")
+        public RedirectView returnTool (Principal p, Long toolId){
+            String username = p.getName();
+            AppUser currentUser = (AppUser) appUserRepository.findByUsername(username);
+            Tool toolToReturn = toolRepository.getById(toolId);
+            toolToReturn.setAvailable(true);
+            toolToReturn.setToolBorrowedByUser(null);
+            List<Tool> toolsBorrowed = currentUser.getToolsBorrowed();
+            List<Tool> updatedBorrowedTools = toolsBorrowed.stream().filter(tool -> !tool.equals(toolToReturn)).toList();
+            currentUser.setToolsBorrowed(updatedBorrowedTools);
+            toolRepository.save(toolToReturn);
+            appUserRepository.save(currentUser);
+
+            return new RedirectView("/profile");
+        }
+
+        @GetMapping("/aboutus")
+        public String getAboutUsPage (Principal p, Model m){
+
+            String username = null;
+            if (p != null) {
+                username = p.getName();
+            }
+            m.addAttribute("username", username);
+            return ("aboutus.html");
+        }
+
+
+        @PostMapping("/signup")
+        public RedirectView postSignup (String username, String password, String zipcode, RedirectAttributes redir) throws
+        IOException
+        {
+
+            if (appUserRepository.existsByUsername(username)) {
+                redir.addFlashAttribute("errorMessage", "Username is already taken! Please choose a different username!");
+                return new RedirectView("/signup");
+            }
+            AppUser newUser = new AppUser();
+            newUser.setUsername(username);
+            newUser.setZipcode(zipcode);
+
+            String hashedPassword = passwordEncoder.encode(password);
+            newUser.setPassword(hashedPassword);
+
+            Location location = ZipToLatLon.getLocation(zipcode);
+            Results[] results = location.getResults();
+            newUser.setZipcode(results[0].getPostcode());
+            newUser.setResults(results[0]);
+
+            appUserRepository.save(newUser);
+            authWithHttpServletRequest(username, password);
+            return new RedirectView("/");
+        }
+
+        public void authWithHttpServletRequest (String username, String password)
+        {
+            try {
+                request.login(username, password);
+            } catch (ServletException SE) {
+                System.out.println("Error: Servlet Exception");
+                SE.printStackTrace();
+            }
+        }
+
+        @PostMapping("/logout")
+        public RedirectView logOutUserAndGetLogin (HttpServletRequest request)
+        {
+            HttpSession session = request.getSession();
+            session.invalidate();
+
+            return new RedirectView("/login");
         }
     }
 
-    @PostMapping("/logout")
-    public RedirectView logOutUserAndGetLogin(HttpServletRequest request)
-    {
-        HttpSession session = request.getSession();
-        session.invalidate();
-
-        return new RedirectView("/login");
-    }
-}
 
