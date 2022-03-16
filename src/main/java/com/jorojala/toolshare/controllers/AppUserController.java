@@ -8,6 +8,7 @@ import com.jorojala.toolshare.models.Results;
 import com.jorojala.toolshare.repositories.AppUserRepository;
 import com.jorojala.toolshare.repositories.ToolRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,17 +42,26 @@ public class AppUserController {
     private HttpServletRequest request;
 
     @GetMapping("/")
-    public String getSplash(){
+    public String getSplash(Principal p, Model m){
+        String username = null;
+        if (p!=null){
+            username = p.getName();
+        }
+        m.addAttribute("username", username);
         return ("splash.html");
     }
 
     @GetMapping("/home")
-    public String getHome(Principal p, Model m){
-        String username =  p.getName();
-        AppUser currentUser = (AppUser) appUserRepository.findByUsername(username);
-        m.addAttribute("username", currentUser.getUsername());
-        return ("index.html");
-    }
+
+    public String getHome(Model m, Principal p){
+        String username = null;
+        if (p!=null){
+            username = p.getName();
+        }
+        m.addAttribute("username", username);
+        return ("splash.html");
+
+
     @GetMapping("/profile")
     public String getUserProfile(Principal p, Model m){
         //TODO Add Return Buttons for the Tools
@@ -110,25 +120,6 @@ public class AppUserController {
     }
 
 
-//    @GetMapping("/tool-listings")
-//    public String getToolListings(Model m, Principal p) {
-//        AppUser currentUser = (AppUser) appUserRepository.findByUsername(p.getName());
-//        List<Tool> originalListOfTools = toolRepository.findAll();
-//
-//        List<Tool> listOfTools = originalListOfTools.stream()
-//                .filter(Tool::getAvailable)
-//                .filter(tool -> !tool.getToolListedByUser().equals(currentUser))
-//                .collect(Collectors.toList());
-//        List<String> toolOwners = listOfTools.stream().map(tool -> tool.getToolListedByUser().getUsername()).toList();
-//
-//        m.addAttribute("toolOwners", toolOwners);
-//        m.addAttribute("listOfTools", listOfTools);
-//        return ("tool-listings-page.html");
-//    }
-
-
-
-
 
     @PostMapping("/borrow-tool")
     public RedirectView borrowTool(Principal p, Long toolId) throws IOException {
@@ -165,10 +156,15 @@ public class AppUserController {
 
     @GetMapping("/aboutus")
     public  String getAboutUsPage(Principal p, Model m) {
-        String username =  p.getName();
-        AppUser currentUser = (AppUser) appUserRepository.findByUsername(username);
-        m.addAttribute("username", currentUser.getUsername());
-        return ("aboutus.html");}
+
+        String username = null;
+        if (p!=null){
+            username = p.getName();
+        }
+        m.addAttribute("username", username);
+        return ("aboutus.html");
+    }
+
 
     @PostMapping("/signup")
     public RedirectView postSignup(String username, String password, String zipcode, RedirectAttributes redir) throws IOException
