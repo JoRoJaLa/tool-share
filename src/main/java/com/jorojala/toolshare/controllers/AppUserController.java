@@ -104,21 +104,21 @@ public class AppUserController {
     }
 
 
-    @GetMapping("/tool-listings")
-    public String getToolListings(Model m, Principal p) {
-        AppUser currentUser = (AppUser) appUserRepository.findByUsername(p.getName());
-        List<Tool> originalListOfTools = toolRepository.findAll();
-
-        List<Tool> listOfTools = originalListOfTools.stream()
-                .filter(Tool::getAvailable)
-                .filter(tool -> !tool.getToolListedByUser().equals(currentUser))
-                .collect(Collectors.toList());
-        List<String> toolOwners = listOfTools.stream().map(tool -> tool.getToolListedByUser().getUsername()).toList();
-
-        m.addAttribute("toolOwners", toolOwners);
-        m.addAttribute("listOfTools", listOfTools);
-        return ("tool-listings-page.html");
-    }
+//    @GetMapping("/tool-listings")
+//    public String getToolListings(Model m, Principal p) {
+//        AppUser currentUser = (AppUser) appUserRepository.findByUsername(p.getName());
+//        List<Tool> originalListOfTools = toolRepository.findAll();
+//
+//        List<Tool> listOfTools = originalListOfTools.stream()
+//                .filter(Tool::getAvailable)
+//                .filter(tool -> !tool.getToolListedByUser().equals(currentUser))
+//                .collect(Collectors.toList());
+//        List<String> toolOwners = listOfTools.stream().map(tool -> tool.getToolListedByUser().getUsername()).toList();
+//
+//        m.addAttribute("toolOwners", toolOwners);
+//        m.addAttribute("listOfTools", listOfTools);
+//        return ("tool-listings-page.html");
+//    }
 
 
 
@@ -161,10 +161,11 @@ public class AppUserController {
     public  String getAboutUsPage() {return ("aboutus.html");}
 
     @PostMapping("/signup")
-    public RedirectView postSignup(String username, String password, String zipcode) throws IOException
+    public RedirectView postSignup(String username, String password, String zipcode, RedirectAttributes redir) throws IOException
     {
 
         if(appUserRepository.existsByUsername(username)){
+            redir.addFlashAttribute("errorMessage", "Username is already taken! Please choose a different username!");
             return new RedirectView("/signup");
         }
         AppUser newUser = new AppUser();

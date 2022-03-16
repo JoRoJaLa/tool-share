@@ -11,6 +11,8 @@
 <body>
 <h1>Sign Up</h1>
 <form action="/signup" method="post">
+    <h2 th:text="${errorMessage}"></h2>
+    <br>
     <label> Username
         <input type="text" name="username">
     </label>
