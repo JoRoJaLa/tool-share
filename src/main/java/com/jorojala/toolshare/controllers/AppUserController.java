@@ -53,14 +53,14 @@ public class AppUserController {
 
     @GetMapping("/home")
 
-    public String getHome(Model m, Principal p){
+    public String getHome(Model m, Principal p) {
         String username = null;
-        if (p!=null){
+        if (p != null) {
             username = p.getName();
         }
         m.addAttribute("username", username);
         return ("splash.html");
-
+    }
 
     @GetMapping("/profile")
     public String getUserProfile(Principal p, Model m){
