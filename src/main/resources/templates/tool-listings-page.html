@@ -20,19 +20,9 @@ margin-bottom: 25px;
 </style>
 
 <body>
-<h1>Tool Listings:</h1>
-
-<a href="/createlisting">Create a Tool Listing</a>
-
-<a href="/tool-listings">Tool Listings</a>
-
-<a href="/aboutus">About Us</a>
-
-<a href="/logout">Log Out</a>
-
-<a href="/profile">Profile</a>
-
-<div>
+<div th:insert="fragments/nav-header :: header"></div>
+<h1>Tool Listings:</h1>\
+<div class="navbar" th:insert="fragments/nav-header :: menu"></div>
     <form action="/filter-tools" th:method="get">
         <select name="tools" id="tools">
             <option value="all">All</option>
@@ -97,6 +87,6 @@ margin-bottom: 25px;
 
 </div>
 
-
+<div class="footer" th:insert="fragments/nav-header :: footer"></div>
 </body>
 </html>
