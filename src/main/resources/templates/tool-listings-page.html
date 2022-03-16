@@ -22,22 +22,6 @@ margin-bottom: 25px;
 <body>
 
 
-<h1>Tool Listings</h1>
-
-<div class="navbar">
-    <a href="/home">Home</a>
-
-    <a href="/createlisting">Create a Tool Listing</a>
-
-    <a href="/tool-listings">Tool Listings</a>
-
-    <a href="/aboutus">About Us</a>
-
-    <a href="/profile">Profile</a>
-
-    <a href="/logout">Log Out</a>
-</div>
-
 <div>
 
 <div th:insert="fragments/nav-header :: header"></div>
@@ -78,7 +62,6 @@ margin-bottom: 25px;
         <input type="submit" value="Filter by distance miles">
     </form>
 </div>
-
 
 
 <h2 th:text="${'Distance: ' + distanceBetweenUsers + ' miles'}"></h2>

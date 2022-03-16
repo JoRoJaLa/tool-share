@@ -36,7 +36,6 @@ public class ToolController {
 
         List<Tool> originalListOfTools = toolRepository.findAll();
 
-        String username = p.getName();
 
         List<Tool> listOfTools = originalListOfTools.stream()
                 .filter(tool -> !tool.getToolListedByUser().getUsername().equals(username))

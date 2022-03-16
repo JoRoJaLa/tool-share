@@ -13,18 +13,6 @@
 </head>
 <body>
 
-<h1 th:text="${'Welcome to Tool Share' + username + ' !'}"></h1>
-
-<a href="/createlisting">Create a Tool Listing</a>
-
-<a href="/tool-listings">Tool Listings</a>
-
-<a href="/aboutus">About Us</a>
-
-<a href="/logout">Log Out</a>
-
-<a href="/profile">Profile</a>
-
 <h1 th:text="${'Welcome to Tool Share ' + username + '!'}"></h1>
 <div class="navbar" th:insert="fragments/nav-header :: menu"></div>
 <div class="footer" th:insert="fragments/nav-header :: footer"></div>
