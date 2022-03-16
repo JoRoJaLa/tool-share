@@ -52,6 +52,7 @@ public class AppUserController {
     }
 
     @GetMapping("/home")
+
     public String getHome(Model m, Principal p){
         String username = null;
         if (p!=null){
@@ -59,7 +60,7 @@ public class AppUserController {
         }
         m.addAttribute("username", username);
         return ("splash.html");
-    }
+
 
     @GetMapping("/profile")
     public String getUserProfile(Principal p, Model m){
@@ -87,7 +88,12 @@ public class AppUserController {
     }
 
     @GetMapping("/createlisting")
-    public String getCreateListingsPage() { return ("tool-form.html");}
+    public String getCreateListingsPage(Principal p, Model m) {
+        String username =  p.getName();
+        AppUser currentUser = (AppUser) appUserRepository.findByUsername(username);
+        m.addAttribute("username", currentUser.getUsername());
+        return ("tool-form.html");
+    }
 
     @PostMapping("/add-listing")
     public RedirectView postListing(Principal p, String tools) {
@@ -150,6 +156,7 @@ public class AppUserController {
 
     @GetMapping("/aboutus")
     public  String getAboutUsPage(Principal p, Model m) {
+
         String username = null;
         if (p!=null){
             username = p.getName();
@@ -157,6 +164,7 @@ public class AppUserController {
         m.addAttribute("username", username);
         return ("aboutus.html");
     }
+
 
     @PostMapping("/signup")
     public RedirectView postSignup(String username, String password, String zipcode, RedirectAttributes redir) throws IOException

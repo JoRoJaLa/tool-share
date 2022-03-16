@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100&display=swap" rel="stylesheet">
 </head>
 <body>
+
 <h1>Create a Tool Listing</h1>
 
 <div class="navbar">
@@ -26,6 +27,12 @@
 
 </div>
 
+<div th:insert="fragments/nav-header :: header"></div>
+<h1>Create a Tool Listing:</h1>
+<div class="navbar" th:insert="fragments/nav-header :: menu"></div>
+
+
+
 <h2>Have some unused tools lying around? Put them to good use in your community.</h2>
 <form action="/add-listing" th:method="post">
     <label> Tool Type
@@ -40,5 +47,6 @@
     <input type="submit">
     //TODO add ability to set location of individual tool instances
 </form>
+<div class="footer" th:insert="fragments/nav-header :: footer"></div>
 </body>
 </html>

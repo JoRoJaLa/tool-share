@@ -13,7 +13,9 @@
 </head>
 
 <body>
+<div th:insert="fragments/nav-header :: header"></div>
 <h1>Profile Info</h1>
+
 <div class="navbar">
     <a href="/home">Home</a>
 
@@ -28,6 +30,9 @@
     <a href="/logout">Log Out</a>
 </div>
 
+<div class="navbar" th:insert="fragments/nav-header :: menu"></div>
+
+
 
 <h2 th:text="${'Username: ' + username}"></h2>
 <h2 th:text="${'Zip Code: ' + zipcode}"></h2>
@@ -35,7 +40,8 @@
 <h2 th:text="${'Tools Listed by ' + username} "></h2>
 <li th:each="tool : ${listOfTools}">
     <br><span th:text="${'Tool: ' + tool.name}"></span>
-    <br><span th:text="${'Description: ' + tool.description}"></span>
+    <br><img th:src="${tool.image}" class="toolIcon">
+<!--    <br><span th:text="${'Description: ' + tool.description}"></span>-->
     <!--    <br><span th:text="${'Availability: ' + tool.isAvailable}"></span>-->
 </li>
 <h2 th:text="${'Tools Borrowed by ' + username} "></h2>
@@ -44,10 +50,13 @@
             <span>
                 <label th:text="${tool.name}" th:for="${tool.id}">
                 </label>
+                <br><img th:src="${tool.image}" class="toolIcon">
                 <input type="hidden" th:value="${tool.id}" name="toolId">
                 <input type="submit" value="Return this tool">
             </span>
     </div>
 </form>
+
+<div class="footer" th:insert="fragments/nav-header :: footer"></div>
 </body>
 </html>

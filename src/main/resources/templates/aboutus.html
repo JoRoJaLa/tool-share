@@ -18,7 +18,9 @@
 
 </style>
 <body>
+<div th:insert="fragments/nav-header :: header"></div>
 <header><h1>About Us</h1></header>
+
 <div th:if="${username}">
     <div class="navbar">
         <a href="/home">Home</a>
@@ -34,6 +36,10 @@
         <a href="/logout">Log Out</a>
     </div>
 </div>
+  
+<div class="navbar" th:insert="fragments/nav-header :: menu"></div>
+
+
 
 <div th:unless="${username}">
     <div class="navbar">
@@ -98,6 +104,6 @@
     </div>
 </main>
 
-<footer>&copy; JoRoJaLa</footer>
+<div class="footer" th:insert="fragments/nav-header :: footer"></div>
 </body>
 </html>

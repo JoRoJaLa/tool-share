@@ -28,6 +28,12 @@ public class ToolController {
 
     @GetMapping("/tool-listings")
     public String getToolListings(Principal p, Model m) {
+
+
+        String username =  p.getName();
+        AppUser currentUser = (AppUser) appUserRepository.findByUsername(username);
+        m.addAttribute("username", currentUser.getUsername());
+
         List<Tool> originalListOfTools = toolRepository.findAll();
 
         String username = p.getName();
