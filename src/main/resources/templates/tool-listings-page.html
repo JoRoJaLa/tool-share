@@ -10,44 +10,49 @@
 <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100&display=swap" rel="stylesheet">
 <body>
 <h1>Tool Listings:</h1>
+<div class="navbar">
+    <a href="http://localhost:8080/createlisting">Create a Tool Listing</a>
 
-<a href="http://localhost:8080/createlisting">Create a Tool Listing</a>
+    <a href="http://localhost:8080/tool-listings">Tool Listings</a>
 
-<a href="http://localhost:8080/tool-listings">Tool Listings</a>
+    <a href="http://localhost:8080/aboutus">About Us</a>
 
-<a href="http://localhost:8080/aboutus">About Us</a>
+    <a href="http://localhost:8080/profile">Profile</a>
 
-<a href="http://localhost:8080/logout">Log Out</a>
-
-<a href="http://localhost:8080/profile">Profile</a>
+    <a href="http://localhost:8080/logout">Log Out</a>
+</div>
+<br><br>
 
 <div>
+    <form action="/filter-tools" th:method="get">
 
+        <select name="tools" id="tools">
+            <option value="all">All</option>
+            <option value="drill">Drill</option>
+            <option value="crowbar">Crowbar</option>
+            <option value="sledgehammer">Sledge Hammer</option>
+            <option value="circular saw">Circular Saw</option>
+        </select>
+        <input type="submit" value="Filter tools">
 
+    </form>
+</div>
+<br>
+
+<div>
     <form action="/borrow-tool" th:method="post">
         <div th:each="tool : ${listOfTools}">
             <span>
                 <label th:text="${tool.name}" th:for="${tool.id}">
                 </label>
-                <input type="hidden" th:value="${tool.id}" name="toolId">
+                <br><img th:src="${tool.image}" class="toolIcon">
+                <br><input type="hidden" th:value="${tool.id}" name="toolId">
                 <input type="submit" value="Borrow this tool">
+                <br><br>
             </span>
         </div>
     </form>
 </div>
-<div>
-    <form action="/filter-tools" th:method="get">
-        <select name="tools" id="tools">
-            <option value="drill">Drill</option>
-            <option value="crowbar">Crowbar</option>
-            <option value="sledgeHammer">Sledge Hammer</option>
-            <option value="circularSaw">Circular Saw</option>
-        </select>
-        <input type="submit" value="Filter tools">
-    </form>
-</div>
-
-
 
 
 </body>

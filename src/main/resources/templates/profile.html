@@ -6,34 +6,44 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Profile</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100&display=swap" rel="stylesheet">
 </head>
 <body>
 <h1>Profile Info</h1>
+<div class="navbar">
+    <a href="http://localhost:8080/createlisting">Create a Tool Listing</a>
 
-<a href="http://localhost:8080/createlisting">Create a Tool Listing</a>
+    <a href="http://localhost:8080/tool-listings">Tool Listings</a>
 
-<a href="http://localhost:8080/tool-listings">Tool Listings</a>
+    <a href="http://localhost:8080/aboutus">About Us</a>
 
-<a href="http://localhost:8080/aboutus">About Us</a>
+    <a href="http://localhost:8080/profile">Profile</a>
 
-<a href="http://localhost:8080/logout">Log Out</a>
-
-<a href="http://localhost:8080/profile">Profile</a>
+    <a href="http://localhost:8080/logout">Log Out</a>
+</div>
 
 <h2 th:text="${'Username: ' + username}"></h2>
 <h2 th:text="${'Zip Code: ' + zipcode}"></h2>
 
-<h2 th:text="${'Tools Listed by' + username} "></h2>
+<h2 th:text="${'Tools Listed by ' + username} "></h2>
 <li th:each="tool : ${listOfTools}">
-    <br><span th:text="${'Tool: ' + tool.name}"></span>
-    <br><span th:text="${'Description: ' + tool.description}"></span>
-<!--    <br><span th:text="${'Availability: ' + tool.isAvailable}"></span>-->
-</li>
-<h2 th:text="${'Tools Borrowed by' + username} "></h2>
-<li th:each="tool : ${listOfBorrowedTools}">
     <br><span th:text="${'Tool: ' + tool.name}"></span>
     <br><span th:text="${'Description: ' + tool.description}"></span>
     <!--    <br><span th:text="${'Availability: ' + tool.isAvailable}"></span>-->
 </li>
+<h2 th:text="${'Tools Borrowed by ' + username} "></h2>
+<form action="/return-tool" th:method="put">
+    <div th:each="tool : ${listOfBorrowedTools}">
+            <span>
+                <label th:text="${tool.name}" th:for="${tool.id}">
+                </label>
+                <input type="hidden" th:value="${tool.id}" name="toolId">
+                <input type="submit" value="Return this tool">
+            </span>
+    </div>
+</form>
 </body>
 </html>

@@ -23,16 +23,18 @@ public class ToolController {
     @GetMapping("/filter-tools")
     public String getToolListings(Model m, String tools) {
         List<Tool> originalListOfTools = toolRepository.findAll();
+        if (tools.equals("all")){
+            m.addAttribute("listOfTools", originalListOfTools);
+        }
+        else {
+            List<Tool> listOfTools = originalListOfTools.stream()
+                    .filter(tool -> tool.getName().equals(tools))
+                    .filter(Tool::getAvailable)
+                    .collect(Collectors.toList());
 
-        List<Tool> listOfTools = originalListOfTools.stream()
-                .filter(tool -> tool.getName().equals(tools))
-                .filter(Tool::getAvailable)
-                .collect(Collectors.toList());
-
-        m.addAttribute("listOfTools", listOfTools);
+            m.addAttribute("listOfTools", listOfTools);
+        }
         return ("tool-listings-page.html");
     }
-
-
 
 }
