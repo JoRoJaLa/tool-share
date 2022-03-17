@@ -44,4 +44,12 @@ class ToolshareApplicationTests {
 				.andExpect(status().isOk());
 	}
 
+	@Test
+	void testAboutUs() throws Exception {
+		mockMvc.perform(get("/aboutus"))
+				.andDo(print())
+				.andExpect(content().string(containsString("About")))
+				.andExpect(status().isOk());
+	}
+
 }
