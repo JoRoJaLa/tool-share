@@ -20,24 +20,39 @@
 
 <div class="navbar" th:insert="fragments/nav-header :: menu"></div>
 
+<div class="profile-section">
+    <div class="profile-info">
+        <h2 th:text="${'Username: ' + username}"></h2>
+        <h2 th:text="${'City: ' + currentUser.getResults().getCity()}"></h2>
+        <h2 th:text="${'State: ' + currentUser.getResults().getState()}"></h2>
+        <h2 th:text="${'Zip Code: ' + zipcode}"></h2>
+    </div>
+</div>
 
+<div class="profile-section">
+    <div class="profile-tool-listed">
+        <h2 th:text="${'Tools Listed by ' + username} " style="font-weight: 800;"></h2><br>
+        <span th:each="tool : ${listOfTools}">
+        <div class="tool">
 
-<h2 th:text="${'Username: ' + username}"></h2>
-<h2 th:text="${'Zip Code: ' + zipcode}"></h2>
-
-<h2 th:text="${'Tools Listed by ' + username} "></h2><br>
-<div class="tool">
-    <span th:each="tool : ${listOfTools}">
         <form action="/return-tool" th:method="put">
 
-            <label th:text="${tool.name}" th:for="${tool.id}">
-            </label>
-            <br><img th:src="${tool.image}" class="toolIcon">
+            <h2 th:text="'Tool: ' + ${tool.name}" th:for="${tool.id}" style="padding:1vw" ></h2>
+            <br><img th:src="${tool.image}" class="toolIcon" style="display:block;margin-left:auto;margin-right:auto">
             <input type="hidden" th:value="${tool.id}" name="toolId">
             <input th:if="${tool.openReturnRequest == true}" type="submit" value="Verify tool was returned">
         </form>
+            <div style="padding:1vw;margin:1vw;background-color: #599A70;color: white;border-radius: 5px;">
+                <form action="/delete-tool" th:method="delete">
+                    <input type="hidden" th:value="${tool.id}" name="toolId">
+                    <input type="submit" value="Delete posting">
+                </form>
+            </div>
+        </div>
     </span>
+    </div>
 </div>
+
 <!--<h2>Remove a tool listing</h2>-->
 <!--<form>-->
 <!--    <div th:each="tool : ${listOfTools}">-->
@@ -46,10 +61,11 @@
 <!--    </div>-->
 <!--</form>-->
 
-
-<h2 th:text="${'Tools Borrowed by ' + username} "></h2>
-<form action="/return-request" th:method="post">
-    <div th:each="tool : ${listOfBorrowedTools}" class="tool">
+<div class="profile-section">
+    <div class="profile-tool-borrowed">
+        <h2 th:text="${'Tools Borrowed by ' + username} "></h2>
+        <form action="/return-request" th:method="post">
+            <div th:each="tool : ${listOfBorrowedTools}" class="tool">
             <span>
                 <label th:text="${tool.name}" th:for="${tool.id}">
                 </label>
@@ -58,8 +74,11 @@
                 <input th:if="${tool.openReturnRequest == false}" type="submit" value="Return this tool">
                 <p th:if="${tool.openReturnRequest == true}">Return is pending owner verification</p>
             </span>
+            </div>
+        </form>
     </div>
-</form>
+</div>
+
 
 <div class="footer" th:insert="fragments/nav-header :: footer"></div>
 </body>

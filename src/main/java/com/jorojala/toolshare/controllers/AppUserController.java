@@ -69,6 +69,7 @@ public class AppUserController {
             String username = p.getName();
             AppUser currentUser = (AppUser) appUserRepository.findByUsername(username);
             m.addAttribute("username", username);
+            m.addAttribute("currentUser", currentUser);
             m.addAttribute("zipcode", currentUser.getZipcode());
             m.addAttribute("listOfTools", currentUser.getToolsListed());
             m.addAttribute("listOfBorrowedTools", currentUser.getToolsBorrowed());
