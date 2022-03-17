@@ -10,10 +10,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100&display=swap" rel="stylesheet">
 
 <body>
-<div>
+
 <div th:insert="fragments/nav-header :: header"></div>
 <h1>Tool Listings</h1>
+
 <div class="navbar" th:insert="fragments/nav-header :: menu"></div>
+
+    <div class="profile-section">
+        <h2>Filter Search</h2>
     <form action="/filter-tools" th:method="get">
         <select name="tools" id="tools">
             <option value="all">All</option>
@@ -22,11 +26,11 @@
             <option value="sledgeHammer">Sledge Hammer</option>
             <option value="circularSaw">Circular Saw</option>
         </select>
-        <input type="submit" value="Filter tools">
+        <input type="submit" value="Filter tools by Type">
     </form>
-</div>
 
-<div class="profile-section">
+
+
 <div>
     <form action="/filter-state" th:method="get">
         <label> State Search
@@ -53,25 +57,21 @@
 </div>
 <div class="profile-section">
 
-
         <div th:each="tool : ${listOfTools}">
             <span>
                 <div class="tool">
-                    <label th:text="${tool.name}" th:for="${tool.id}"></label>
-                <p th:text="${'City: ' + tool.getToolListedByUser().getResults().getCity()}"></p>
-                <p th:text="${'State: ' + tool.getToolListedByUser().getResults().getState()}"></p>
-                <p th:text="${'Name: ' + tool.getToolListedByUser().getUsername}"></p>
-                <br><img th:src="${tool.image}" class="toolIcon">
-                <form action="/borrow-tool" th:method="post">
-                <input type="hidden" th:value="${tool.id}" name="toolId">
-                <input type="submit" value="Borrow this tool">
-                </form>
-<!--                <form action="/borrow-tool-get-distance" th:method="get">-->
-<!--                <input type="hidden" th:value="${tool.id}" name="toolId">-->
-<!--                <input type="submit" value="Get Distance">-->
-<!--                </form>-->
+                    <h2 th:text="'Tool: '+ ${tool.name}" th:for="${tool.id}" style="padding:1vw"></h2>
+                <p th:text="${'City: ' + tool.getToolListedByUser().getResults().getCity()}" style="padding:0.5vw"></p>
+                <p th:text="${'State: ' + tool.getToolListedByUser().getResults().getState()}"style="padding:0.5vw"></p>
+                <p th:text="${'Name: ' + tool.getToolListedByUser().getUsername}"style="padding:0.5vw"></p>
+                <br><img th:src="${tool.image}" class="toolIcon" style="display:block;margin-left:auto;margin-right:auto">
+                    <div style="padding:1vw;margin:1vw;background-color: #599A70;color: white;border-radius: 5px;">
+                        <form action="/borrow-tool" th:method="post">
+                            <input type="hidden" th:value="${tool.id}" name="toolId">
+                            <input type="submit" value="Borrow this tool">
+                        </form>
+                    </div>
                 </div>
-
             </span>
         </div>
 

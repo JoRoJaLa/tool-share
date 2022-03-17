@@ -37,8 +37,8 @@ text-align: center
 }
 
 .profile-info{
-margin-left: 5vw;
-padding: 2vw;
+margin-left: 3vw;
+padding: 1vw;
 }
 
 .devicon {
@@ -137,6 +137,7 @@ border-radius: 5px;
     display: block;
     margin-left: auto;
     margin-right: auto;
+    margin-top: 1vw;
 }
 footer{
   background-color: #555;
