@@ -29,15 +29,16 @@
 
 
 <li th:each="tool : ${listOfTools}">
-    <br><span th:text="${'Tool: ' + tool.name}"></span>
-    <br><img th:src="${tool.image}" class="toolIcon">
-<!--    <br><span th:text="${'Description: ' + tool.description}"></span>-->
-    <!--    <br><span th:text="${'Availability: ' + tool.isAvailable}"></span>-->
+    <div class="tool">
+        <br><span th:text="${'Tool: ' + tool.name}"></span>
+        <br><img th:src="${tool.image}" class="toolIcon">
+    </div>
+
 </li>
 <h2 th:text="${'Tools Borrowed by ' + username} "></h2>
 
 <form action="/return-tool" th:method="put">
-    <div th:each="tool : ${listOfTools}">
+    <div th:each="tool : ${listOfTools}" class="tool">
         <span>
             <label th:text="${tool.name}" th:for="${tool.id}">
             </label>
@@ -58,7 +59,7 @@
 
 <h2 th:text="${'Tools Borrowed by ' + username} "></h2>
 <form action="/return-request" th:method="post">
-    <div th:each="tool : ${listOfBorrowedTools}">
+    <div th:each="tool : ${listOfBorrowedTools}" class="tool">
             <span>
                 <label th:text="${tool.name}" th:for="${tool.id}">
                 </label>
