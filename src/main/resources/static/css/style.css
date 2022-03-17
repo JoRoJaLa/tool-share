@@ -36,12 +36,17 @@ text-align: center
   background-color: #999;
 }
 
+.profile-info{
+margin-left: 5vw;
+padding: 2vw;
+}
+
 .devicon {
-  max-width: 10%;
+  max-width: 20%;
   height: auto;
   margin-left: auto;
   margin-right: auto;
-  display: block
+  display: block;
 }
 
 .developer img {
@@ -83,12 +88,40 @@ text-align: center;
   background-color: #000;
 }
 
+
+.profile-section{
+margin: 5vw;
+}
+
 div.tool {
 width: 50%;
 background-color: white;
+border: 3px solid #599A70;
 box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 margin-bottom: 25px;
 }
+.header-fragment{
+display: flex;
+}
+
+.button-group{
+display: flex;
+}
+
+.buttons{
+margin: 3vw;
+background-color: #599A70;
+color: white;
+margin-left: 30px;
+padding: 20px;
+border-radius: 5px;
+}
+
+.disabled-link{
+        cursor: default;
+        text-decoration: none;
+        color: white;
+    }
 
 .responsive {
   width: 100%;
@@ -96,9 +129,7 @@ margin-bottom: 25px;
 }
 .header-logo{
     width: 5vw;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+    height: 5vw;
 }
 
 .footer-logo{

@@ -12,7 +12,7 @@
 <body>
 <div>
 <div th:insert="fragments/nav-header :: header"></div>
-<h1>Tool Listings</h1>\
+<h1>Tool Listings</h1>
 <div class="navbar" th:insert="fragments/nav-header :: menu"></div>
     <form action="/filter-tools" th:method="get">
         <select name="tools" id="tools">
@@ -25,6 +25,8 @@
         <input type="submit" value="Filter tools">
     </form>
 </div>
+
+<div class="profile-section">
 <div>
     <form action="/filter-state" th:method="get">
         <label> State Search
@@ -48,11 +50,9 @@
         <input type="submit" value="Filter by distance miles">
     </form>
 </div>
+</div>
+<div class="profile-section">
 
-
-<h2 th:text="${'Distance: ' + distanceBetweenUsers + ' miles'}"></h2>
-
-<div>
 
         <div th:each="tool : ${listOfTools}">
             <span>
@@ -66,10 +66,10 @@
                 <input type="hidden" th:value="${tool.id}" name="toolId">
                 <input type="submit" value="Borrow this tool">
                 </form>
-                <form action="/borrow-tool-get-distance" th:method="get">
-                <input type="hidden" th:value="${tool.id}" name="toolId">
-                <input type="submit" value="Get Distance">
-                </form>
+<!--                <form action="/borrow-tool-get-distance" th:method="get">-->
+<!--                <input type="hidden" th:value="${tool.id}" name="toolId">-->
+<!--                <input type="submit" value="Get Distance">-->
+<!--                </form>-->
                 </div>
 
             </span>

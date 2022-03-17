@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.security.Principal;
 import java.util.Comparator;
@@ -24,6 +26,16 @@ public class ToolController {
     AppUserRepository appUserRepository;
     @Autowired
     ToolRepository toolRepository;
+
+
+
+    @DeleteMapping("/delete-tool")
+    public RedirectView deleteToolListing(Principal p, Model m, long toolId){
+        String username = p.getName();
+        toolRepository.deleteById(toolId);
+        m.addAttribute("username", username);
+        return new RedirectView("/profile");
+    }
 
 
     @GetMapping("/tool-listings")
@@ -58,6 +70,7 @@ public class ToolController {
                             .collect(Collectors.toList());
 
             m.addAttribute("listOfTools", listOfTools);
+            m.addAttribute("username", username);
             return ("tool-listings-page.html");
         } else {
             List<Tool> originalListOfTools = toolRepository.findAll();
@@ -68,6 +81,7 @@ public class ToolController {
                     .filter(Tool::getAvailable)
                     .collect(Collectors.toList());
             m.addAttribute("listOfTools", listOfTools);
+            m.addAttribute("username", username);
             return ("tool-listings-page.html");
         }
     }
@@ -86,6 +100,7 @@ public class ToolController {
                 .collect(Collectors.toList());
 
         m.addAttribute("listOfTools", listOfTools);
+        m.addAttribute("username", username);
         return ("tool-listings-page.html");
     }
 
@@ -103,6 +118,7 @@ public class ToolController {
                 .collect(Collectors.toList());
 
         m.addAttribute("listOfTools", listOfTools);
+        m.addAttribute("username", username);
         return ("tool-listings-page.html");
     }
 
@@ -124,6 +140,7 @@ public class ToolController {
 
         double distanceBetweenUsers = ZipToLatLon.latLongDist(currentUserLat,currentUserLon,userToolOfOwnerLat,userToolOfOwnerLon);
         m.addAttribute("distanceBetweenUsers", distanceBetweenUsers);
+        m.addAttribute("username", username);
 
         return ("tool-listings-page.html");
     }
@@ -162,6 +179,7 @@ public class ToolController {
                 .collect(Collectors.toList());
 
         m.addAttribute("listOfTools", listOfTools);
+        m.addAttribute("username", username);
 
         return ("tool-listings-page.html");
     }
