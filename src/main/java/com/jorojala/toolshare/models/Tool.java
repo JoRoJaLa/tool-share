@@ -12,8 +12,8 @@ public class Tool {
     String image;
     String description;
     Boolean isAvailable = true;
+    Boolean openReturnRequest = false;
     double distanceFromUser;
-
 
 
     @ManyToOne
@@ -95,5 +95,13 @@ public class Tool {
 
     public void setDistanceFromUser(double distanceFromUser) {
         this.distanceFromUser = distanceFromUser;
+    }
+
+    public Boolean getOpenReturnRequest() {
+        return openReturnRequest;
+    }
+
+    public void setOpenReturnRequest(Boolean openReturnRequest) {
+        this.openReturnRequest = openReturnRequest;
     }
 }

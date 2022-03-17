@@ -154,19 +154,55 @@ public class AppUserController {
         @GetMapping("/aboutus")
         public String getAboutUsPage (Principal p, Model m){
 
+
+        if (toolToBorrow != null && toolToBorrow.getAvailable() && !toolToBorrow.getToolListedByUser().equals(currentUser)) {
+            toolToBorrow.setToolBorrowedByUser(currentUser);
+            toolToBorrow.setAvailable(false);
+            currentUser.addTooltoBorrowedTools(toolToBorrow);
+            appUserRepository.save(currentUser);
+            toolRepository.save(toolToBorrow);
+        } else {
+            throw new IOException("Tool not available to borrow");
+        }
             String username = null;
             if (p != null) {
                 username = p.getName();
             }
             m.addAttribute("username", username);
             return ("aboutus.html");
+
         }
 
+
+
+    @PostMapping("/return-request")
+    public RedirectView createReturnRequest(long toolId) {
+        Tool toolToBeReturned = toolRepository.getById(toolId);
+        toolToBeReturned.setOpenReturnRequest(true);
+        toolRepository.save(toolToBeReturned);
+        return new RedirectView("/profile");
+    }
+
+    @PutMapping("/return-tool")
+    public RedirectView returnTool(Long toolId){
+        Tool toolToReturn = toolRepository.getById(toolId);
+        AppUser borrower = toolToReturn.getToolBorrowedByUser();
+        List<Tool> toolsBorrowed = borrower.getToolsBorrowed();
+        List<Tool> updatedBorrowedTools = toolsBorrowed.stream().filter(tool -> !tool.equals(toolToReturn)).toList();
+        borrower.setToolsBorrowed(updatedBorrowedTools);
+        toolToReturn.setAvailable(true);
+        toolToReturn.setToolBorrowedByUser(null);
+        toolToReturn.setOpenReturnRequest(false);
+        toolRepository.save(toolToReturn);
+        appUserRepository.save(borrower);
+        return new RedirectView("/profile");
+    }
 
         @PostMapping("/signup")
         public RedirectView postSignup (String username, String password, String zipcode, RedirectAttributes redir) throws
         IOException
         {
+
 
             if (appUserRepository.existsByUsername(username)) {
                 redir.addFlashAttribute("errorMessage", "Username is already taken! Please choose a different username!");
