@@ -135,18 +135,22 @@ public class AppUserController {
             return new RedirectView("/profile");
         }
 
+
+
         @PutMapping("/return-tool")
         public RedirectView returnTool (Principal p, Long toolId){
             String username = p.getName();
-            AppUser currentUser = (AppUser) appUserRepository.findByUsername(username);
             Tool toolToReturn = toolRepository.getById(toolId);
+            AppUser owner = toolToReturn.getToolListedByUser();
+            AppUser borrower = toolToReturn.getToolBorrowedByUser();
             toolToReturn.setAvailable(true);
             toolToReturn.setToolBorrowedByUser(null);
-            List<Tool> toolsBorrowed = currentUser.getToolsBorrowed();
+            toolToReturn.setOpenReturnRequest(false);
+            List<Tool> toolsBorrowed = borrower.getToolsBorrowed();
             List<Tool> updatedBorrowedTools = toolsBorrowed.stream().filter(tool -> !tool.equals(toolToReturn)).toList();
-            currentUser.setToolsBorrowed(updatedBorrowedTools);
+            borrower.setToolsBorrowed(updatedBorrowedTools);
             toolRepository.save(toolToReturn);
-            appUserRepository.save(currentUser);
+            appUserRepository.save(borrower);
 
             return new RedirectView("/profile");
         }
@@ -159,7 +163,6 @@ public class AppUserController {
             }
             m.addAttribute("username", username);
             return ("aboutus.html");
-
         }
 
 
