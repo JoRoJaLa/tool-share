@@ -18,11 +18,23 @@
 
 </style>
 <body>
-<div th:insert="fragments/nav-header :: header"></div>
+<div th:if="${username}" th:insert="fragments/nav-header :: header"></div>
 <header><h1>About Us</h1></header>
 
+<div th:unless="${username}">
+    <div class="navbar">
+        <a href="/home">Home</a>
 
-<div class="navbar" th:insert="fragments/nav-header :: menu"></div>
+        <a href="/login"> Login </a>
+
+        <a href="/signup"> Sign Up </a>
+
+        <a href="/aboutus">About Us</a>
+
+    </div>
+</div>
+
+<div class="navbar" th:if="${username}" th:insert="fragments/nav-header :: menu"></div>
 
 
 

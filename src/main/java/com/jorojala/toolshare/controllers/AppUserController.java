@@ -59,7 +59,7 @@ public class AppUserController {
             username = p.getName();
         }
         m.addAttribute("username", username);
-        return ("index.html");
+        return ("splash.html");
     }
 
 
