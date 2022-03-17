@@ -27,10 +27,18 @@ public class ToolController {
 
 
     @GetMapping("/tool-listings")
-    public String getToolListings(Model m) {
+    public String getToolListings(Principal p, Model m) {
+
+
+        String username =  p.getName();
+        AppUser currentUser = (AppUser) appUserRepository.findByUsername(username);
+        m.addAttribute("username", currentUser.getUsername());
+
         List<Tool> originalListOfTools = toolRepository.findAll();
 
+
         List<Tool> listOfTools = originalListOfTools.stream()
+                .filter(tool -> !tool.getToolListedByUser().getUsername().equals(username))
                 .filter(Tool::getAvailable)
                 .collect(Collectors.toList());
 
@@ -39,9 +47,16 @@ public class ToolController {
     }
 
     @GetMapping("/filter-tools")
-    public String getToolListings(Model m, String tools) {
+    public String getToolListings(Principal p, Model m, String tools) {
+
+        String username = p.getName();
+
         if (tools.equals("all")){
-            List<Tool> listOfTools = toolRepository.findAll();
+            List<Tool> originalListOfTools = toolRepository.findAll();
+            List<Tool> listOfTools = originalListOfTools.stream()
+                    .filter(tool -> !tool.getToolListedByUser().getUsername().equals(username))
+                            .collect(Collectors.toList());
+
             m.addAttribute("listOfTools", listOfTools);
             return ("tool-listings-page.html");
         } else {
@@ -49,6 +64,7 @@ public class ToolController {
 
             List<Tool> listOfTools = originalListOfTools.stream()
                     .filter(tool -> tool.getName().equals(tools))
+                    .filter(tool -> !tool.getToolListedByUser().getUsername().equals(username))
                     .filter(Tool::getAvailable)
                     .collect(Collectors.toList());
             m.addAttribute("listOfTools", listOfTools);
@@ -59,11 +75,13 @@ public class ToolController {
 
 
     @GetMapping("/filter-state")
-    public String getToolListingsByState(Model m, String state){
+    public String getToolListingsByState(Principal p, Model m, String state){
+        String username = p.getName();
         List<Tool> originalListOfTools = toolRepository.findAll();
 
         List<Tool> listOfTools = originalListOfTools.stream()
                 .filter(tool -> tool.getToolListedByUser().getResults().getState().equals(state))
+                .filter(tool -> !tool.getToolListedByUser().getUsername().equals(username))
                 .filter(Tool::getAvailable)
                 .collect(Collectors.toList());
 
@@ -73,12 +91,14 @@ public class ToolController {
 
 
     @GetMapping("/filter-city")
-    public String getToolListingsByCity(Model m, String city){
-        List<Tool> originalListOfTools = toolRepository.findAll();
+    public String getToolListingsByCity(Principal p, Model m, String city){
+        String username = p.getName();
 
+        List<Tool> originalListOfTools = toolRepository.findAll();
 
         List<Tool> listOfTools = originalListOfTools.stream()
                 .filter(tool -> tool.getToolListedByUser().getResults().getCity().equals(city))
+                .filter(tool -> !tool.getToolListedByUser().getUsername().equals(username))
                 .filter(Tool::getAvailable)
                 .collect(Collectors.toList());
 
@@ -114,10 +134,8 @@ public class ToolController {
 
     @GetMapping("/filter-distance-miles")
     public String getFilterDistanceMiles(Principal p, Model m) {
-        String username = null;
-        if (p != null) {
-            username = p.getName();
-        }
+        String username = p.getName();
+
 
         AppUser currentUser = (AppUser) appUserRepository.findByUsername(username);
         double currentUserLat = currentUser.getResults().getLat();
@@ -140,8 +158,8 @@ public class ToolController {
         List<Tool> listOfTools = originalListOfTools.stream()
                 .sorted(toolComparator)
                 .filter(Tool::getAvailable)
+                .filter(tool -> !tool.getToolListedByUser().getUsername().equals(username))
                 .collect(Collectors.toList());
-
 
         m.addAttribute("listOfTools", listOfTools);
 

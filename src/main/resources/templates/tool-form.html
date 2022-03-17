@@ -9,20 +9,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100&display=swap" rel="stylesheet">
 </head>
 <body>
+<div th:insert="fragments/nav-header :: header"></div>
 <h1>Create a Tool Listing:</h1>
+<div class="navbar" th:insert="fragments/nav-header :: menu"></div>
 
-<div class="navbar">
-    <a href="http://localhost:8080/createlisting">Create a Tool Listing</a>
 
-    <a href="http://localhost:8080/tool-listings">Tool Listings</a>
-
-    <a href="http://localhost:8080/aboutus">About Us</a>
-
-    <a href="http://localhost:8080/profile">Profile</a>
-
-    <a href="http://localhost:8080/logout">Log Out</a>
-
-</div>
 
 <h2>Have some unused tools lying around? Put them to good use in your community.</h2>
 <form action="/add-listing" th:method="post">
@@ -38,5 +29,6 @@
     <input type="submit">
     //TODO add ability to set location of individual tool instances
 </form>
+<div class="footer" th:insert="fragments/nav-header :: footer"></div>
 </body>
 </html>

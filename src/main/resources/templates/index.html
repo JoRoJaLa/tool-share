@@ -12,16 +12,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100&display=swap" rel="stylesheet">
 </head>
 <body>
-<h1 th:text="${'Welcome to Tool Share' + username + ' !'}"></h1>
 
-<a href="http://localhost:8080/createlisting">Create a Tool Listing</a>
+<h1 th:text="${'Welcome to Tool Share ' + username + '!'}"></h1>
+<div class="navbar" th:insert="fragments/nav-header :: menu"></div>
+<div class="footer" th:insert="fragments/nav-header :: footer"></div>
 
-<a href="http://localhost:8080/tool-listings">Tool Listings</a>
-
-<a href="http://localhost:8080/aboutus">About Us</a>
-
-<a href="http://localhost:8080/logout">Log Out</a>
-
-<a href="http://localhost:8080/profile">Profile</a>
 </body>
 </html>

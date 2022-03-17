@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -18,22 +18,23 @@
 
 </style>
 <body>
+<div th:insert="fragments/nav-header :: header"></div>
 <header><h1>About Us</h1></header>
-<div class="navbar">
-    <a href="http://localhost:8080/createlisting">Create a Tool Listing</a>
 
-    <a href="http://localhost:8080/tool-listings">Tool Listings</a>
 
-    <a href="http://localhost:8080/aboutus">About Us</a>
+<div class="navbar" th:insert="fragments/nav-header :: menu"></div>
 
-    <a href="http://localhost:8080/profile">Profile</a>
 
-    <a href="http://localhost:8080/logout">Log Out</a>
-</div>
+
 
 <main>
     <div class="developer">
         <img src="/../images/joshuamccluskey.jpg" alt="Joshua's Image">
+        <div class="devicon">
+            <a href="https://github.com/joshuamccluskey"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub Icon" /></a>
+            <a href="https://www.linkedin.com/in/joshua-mccluskey/"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg" alt="LinkedIn Icon"/></a>
+
+        </div>
         <h2>Joshua McCluskey</h2>
         <p> Joshua McCluskey is a software engineer and Air Force veteran based out of Seattle.
             He discovered a deep interest in coding while working at National Oceanic and
@@ -43,6 +44,10 @@
 
     <div class="developer">
         <img src="/../images/portfolioImage.png" alt="Shane's Image">
+        <div class="devicon">
+            <a href="https://github.com/Shane-Patrick-Roach"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub Icon" /></a>
+            <a href="https://www.linkedin.com/in/shane-roach-908987226/"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg" alt="LinkedIn Icon"/></a>
+        </div>
         <h2>Shane Roach</h2>
         <p>I come from a mixed background of ecological engineering, art/design, and outdoor adventure leadership;
             which have ultimately shaped how I view the world. Over the past couple years, since I graduated from
@@ -56,6 +61,10 @@
 
     <div class="developer">
         <img src="/../images/Picture-02.jpg" alt="Kevin's Image">
+        <div class="devicon">
+            <a href="https://github.com/KevLaMDev"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub Icon" /></a>
+            <a href="https://www.linkedin.com/in/kevin-lamarca/"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg" alt="LinkedIn Icon"/></a>
+        </div>
         <h2>Kevin LaMarca</h2>
         <p>Hello, my name is Kevin LaMarca and I am a software engineer.
             I graduated from Baruch College with a degree in corporate communication, an amalgam of marketing, public
@@ -71,6 +80,10 @@
 
     <div class="developer">
         <img src="/../images/Jallow.JPG" alt="Jallow's Image">
+        <div class="devicon">
+            <a href="https://github.com/Hambalieu"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub Icon" /></a>
+            <a href="https://www.linkedin.com/in/hambalieu-jallow-a75989226/"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg" alt="LinkedIn Icon"/></a>
+        </div>
         <h2>Hambalieu Jallow</h2>
         <p> My name is Hambalieu Jallow.
             I am Originally from Gambia but I have been Living in Seattle for past 6 years.
@@ -79,6 +92,6 @@
     </div>
 </main>
 
-<footer>&copy; JoRoJaLa</footer>
+<div class="footer" th:insert="fragments/nav-header :: footer"></div>
 </body>
 </html>

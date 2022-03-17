@@ -1,3 +1,49 @@
+*{
+font-family: 'Raleway', sans-serif;
+list-style: none;
+}
+
+h* {
+font-family: 'Raleway', sans-serif;
+}
+.splash nav {
+  width: 100%;
+  overflow: auto;
+}
+.splash {
+text-align: center
+}
+
+.splash img {
+  background-color: #555;
+  max-width: 75%;
+  height: auto;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+.splash a {
+  padding: 12px;
+  color: black;
+  text-decoration: none;
+  font-size: 17px;
+  width: 15%; /* Four equal-width links. If you have two links, use 50%, and 33.33% for three links, etc.. */
+  text-align: center; /* If you want the text to be centered */
+}
+
+.splash a:hover {
+  background-color: #999;
+}
+
+.devicon {
+  max-width: 10%;
+  height: auto;
+  margin-left: auto;
+  margin-right: auto;
+  display: block
+}
+
 .developer img {
   max-width: 75%;
   height: auto;
@@ -10,9 +56,6 @@
 text-align: center;
 }
 
-*{
-font-family: 'Raleway', sans-serif;
-}
 
 .toolIcon {
     max-height: 35%;
@@ -40,6 +83,26 @@ font-family: 'Raleway', sans-serif;
   background-color: #000;
 }
 
+.responsive {
+  width: 100%;
+  height: auto;
+}
+
+.footer-logo{
+    width: 5vw;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+footer{
+  background-color: #555;
+  border-radius: 10px;
+  height: 10vw;
+  color: #9FCDAF;
+  text-align: center;
+  padding: 5 vw;
+  }
+
 @media screen and (max-width: 500px) {
   .navbar a {
     float: none;
@@ -47,4 +110,6 @@ font-family: 'Raleway', sans-serif;
     width: 100%;
     text-align: left; /* If you want the text to be left-aligned on small screens */
   }
+
+
 }
