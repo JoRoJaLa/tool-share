@@ -133,6 +133,8 @@ public class AppUserController {
         if (toolToBorrow != null && toolToBorrow.getAvailable() && !toolToBorrow.getToolListedByUser().equals(currentUser)) {
             toolToBorrow.setToolBorrowedByUser(currentUser);
             toolToBorrow.setAvailable(false);
+            currentUser.addTooltoBorrowedTools(toolToBorrow);
+            appUserRepository.save(currentUser);
             toolRepository.save(toolToBorrow);
         } else {
             throw new IOException("Tool not available to borrow");
@@ -141,19 +143,26 @@ public class AppUserController {
         return new RedirectView("/profile");
     }
 
+    @PostMapping("/return-request")
+    public RedirectView createReturnRequest(long toolId) {
+        Tool toolToBeReturned = toolRepository.getById(toolId);
+        toolToBeReturned.setOpenReturnRequest(true);
+        toolRepository.save(toolToBeReturned);
+        return new RedirectView("/profile");
+    }
+
     @PutMapping("/return-tool")
-    public RedirectView returnTool(Principal p, Long toolId){
-        String username = p.getName();
-        AppUser currentUser = (AppUser) appUserRepository.findByUsername(username);
+    public RedirectView returnTool(Long toolId){
         Tool toolToReturn = toolRepository.getById(toolId);
+        AppUser borrower = toolToReturn.getToolBorrowedByUser();
+        List<Tool> toolsBorrowed = borrower.getToolsBorrowed();
+        List<Tool> updatedBorrowedTools = toolsBorrowed.stream().filter(tool -> !tool.equals(toolToReturn)).toList();
+        borrower.setToolsBorrowed(updatedBorrowedTools);
         toolToReturn.setAvailable(true);
         toolToReturn.setToolBorrowedByUser(null);
-        List<Tool> toolsBorrowed = currentUser.getToolsBorrowed();
-        List<Tool> updatedBorrowedTools = toolsBorrowed.stream().filter(tool -> !tool.equals(toolToReturn)).toList();
-        currentUser.setToolsBorrowed(updatedBorrowedTools);
+        toolToReturn.setOpenReturnRequest(false);
         toolRepository.save(toolToReturn);
-        appUserRepository.save(currentUser);
-
+        appUserRepository.save(borrower);
         return new RedirectView("/profile");
     }
 
