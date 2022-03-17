@@ -12,10 +12,7 @@ import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -136,22 +133,19 @@ public class AppUserController {
         }
 
 
-
-        @PutMapping("/return-tool")
+        @PatchMapping("/return-tool")
         public RedirectView returnTool (Principal p, Long toolId){
             String username = p.getName();
-            Tool toolToReturn = toolRepository.getById(toolId);
+            Tool toolToReturn = toolRepository.findById(toolId).orElseThrow();
             AppUser owner = toolToReturn.getToolListedByUser();
             AppUser borrower = toolToReturn.getToolBorrowedByUser();
             toolToReturn.setAvailable(true);
             toolToReturn.setToolBorrowedByUser(null);
             toolToReturn.setOpenReturnRequest(false);
             List<Tool> toolsBorrowed = borrower.getToolsBorrowed();
-            List<Tool> updatedBorrowedTools = toolsBorrowed.stream().filter(tool -> !tool.equals(toolToReturn)).toList();
-            borrower.setToolsBorrowed(updatedBorrowedTools);
+            List<Tool> updatedToolsBorrowed = toolsBorrowed.stream().filter(tool -> tool.equals(toolToReturn)).collect(Collectors.toList());
             toolRepository.save(toolToReturn);
             appUserRepository.save(borrower);
-
             return new RedirectView("/profile");
         }
 

@@ -2,6 +2,7 @@ package com.jorojala.toolshare.models;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Objects;
 
 @Entity
 public class Tool {
@@ -103,5 +104,18 @@ public class Tool {
 
     public void setOpenReturnRequest(Boolean openReturnRequest) {
         this.openReturnRequest = openReturnRequest;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Tool tool = (Tool) o;
+        return Double.compare(tool.distanceFromUser, distanceFromUser) == 0 && id.equals(tool.id) && Objects.equals(name, tool.name) && Objects.equals(image, tool.image) && Objects.equals(description, tool.description) && isAvailable.equals(tool.isAvailable) && openReturnRequest.equals(tool.openReturnRequest) && Objects.equals(toolListedByUser, tool.toolListedByUser) && Objects.equals(toolBorrowedByUser, tool.toolBorrowedByUser);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, image, description, isAvailable, openReturnRequest, distanceFromUser, toolListedByUser, toolBorrowedByUser);
     }
 }
