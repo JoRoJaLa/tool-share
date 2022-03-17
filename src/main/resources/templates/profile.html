@@ -35,7 +35,14 @@
         <span th:each="tool : ${listOfTools}">
         <div class="tool">
 
-        <form action="/return-tool" th:method="put">
+<h2 th:text="'Username: ' + ${username}"></h2>
+<h2 th:text="'Zip Code: ' + ${zipcode}"></h2>
+
+<h2 th:text="'Tools Listed by ' + ${username}"></h2><br>
+<div class="tool">
+    <span th:each="tool : ${listOfTools}">
+        <form action="/return-tool" th:method="patch">
+
 
             <h2 th:text="'Tool: ' + ${tool.name}" th:for="${tool.id}" style="padding:1vw" ></h2>
             <br><img th:src="${tool.image}" class="toolIcon" style="display:block;margin-left:auto;margin-right:auto">
@@ -61,23 +68,23 @@
 <!--    </div>-->
 <!--</form>-->
 
+
 <div class="profile-section">
-    <div class="profile-tool-borrowed">
-        <h2 th:text="${'Tools Borrowed by ' + username} "></h2>
-        <form action="/return-request" th:method="post">
-            <div th:each="tool : ${listOfBorrowedTools}" class="tool">
-            <span>
-                <label th:text="${tool.name}" th:for="${tool.id}">
-                </label>
-                <br><img th:src="${tool.image}" class="toolIcon">
-                <input type="hidden" th:value="${tool.id}" name="toolId">
-                <input th:if="${tool.openReturnRequest == false}" type="submit" value="Return this tool">
-                <p th:if="${tool.openReturnRequest == true}">Return is pending owner verification</p>
-            </span>
-            </div>
-        </form>
-    </div>
-</div>
+<div class="profile-tool-borrowed">
+<h2 th:text="${'Tools Borrowed by ' + username} "></h2>
+            <span  th:each="tool : ${listOfBorrowedTools}" >
+                <form action="/return-request" th:method="post">
+                    <label th:text="${tool.name}" th:for="${tool.id}">
+                    </label>
+                    <br><img th:src="${tool.image}" class="toolIcon">
+                    <input type="hidden" th:value="${tool.id}" name="toolId">
+                    <input th:if="${tool.openReturnRequest == false}" type="submit" value="Return this tool">
+                    <p th:if="${tool.openReturnRequest == true}">Return is pending owner verification</p>
+                </form>
+              </span>
+              </div>
+               </div>
+
 
 
 <div class="footer" th:insert="fragments/nav-header :: footer"></div>
