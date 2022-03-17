@@ -35,13 +35,16 @@
 
     <div th:each="tool : ${listOfTools}">
         <div class="tool">
-        <form action="/return-tool" th:method="patch">
+
             <h2 th:text="'Tool: ' + ${tool.name}" th:for="${tool.id}" style="padding:1vw" ></h2>
             <br><img th:src="${tool.image}" class="toolIcon" style="display:block;margin-left:auto;margin-right:auto">
-            <input type="hidden" th:value="${tool.id}" name="toolId">
-            <input th:if="${tool.openReturnRequest == true}" type="submit" value="Verify tool was returned">
-        </form>
+
+
             <div style="padding:1vw;margin:1vw;background-color: #599A70;color: white;border-radius: 5px;">
+                <form action="/return-tool" th:method="patch">
+                    <input type="hidden" th:value="${tool.id}" name="toolId">
+                <input th:if="${tool.openReturnRequest == true}" type="submit" value="Verify tool was returned">
+                </form>
                 <form action="/delete-tool" th:method="delete">
                     <input type="hidden" th:value="${tool.id}" name="toolId">
                     <input type="submit" value="Delete posting">
@@ -63,16 +66,21 @@
 <div class="profile-section">
 <div class="profile-tool-borrowed">
 <h2 th:text="${'Tools Borrowed by ' + username} "></h2>
-            <span  th:each="tool : ${listOfBorrowedTools}" >
-                <form action="/return-request" th:method="post">
-                    <label th:text="${tool.name}" th:for="${tool.id}">
-                    </label>
-                    <br><img th:src="${tool.image}" class="toolIcon">
-                    <input type="hidden" th:value="${tool.id}" name="toolId">
-                    <input th:if="${tool.openReturnRequest == false}" type="submit" value="Return this tool">
-                    <p th:if="${tool.openReturnRequest == true}">Return is pending owner verification</p>
-                </form>
-            </span>
+
+            <div  th:each="tool : ${listOfBorrowedTools}" >
+                <div class="tool">
+
+                    <h2 th:text="${tool.name}" th:for="${tool.id}" style="padding:1vw" ></h2>
+                    <br><img th:src="${tool.image}" class="toolIcon"style="display:block;margin-left:auto;margin-right:auto">
+                    <div style="padding:1vw;margin:1vw;background-color: #599A70;color: white;border-radius: 5px;">
+                        <form action="/return-request" th:method="post">
+                        <input type="hidden" th:value="${tool.id}" name="toolId">
+                        <input th:if="${tool.openReturnRequest == false}" type="submit" value="Return this tool">
+                        <p th:if="${tool.openReturnRequest == true}">Return is pending owner verification</p>
+                        </form>
+                    </div>
+                </div>
+            </div>
     </div>
 </div>
 
