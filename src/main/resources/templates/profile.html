@@ -25,35 +25,25 @@
 <h2 th:text="${'Username: ' + username}"></h2>
 <h2 th:text="${'Zip Code: ' + zipcode}"></h2>
 
-<h2 th:text="${'Tools Listed by ' + username} "></h2>
-
-
-<li th:each="tool : ${listOfTools}">
-    <br><span th:text="${'Tool: ' + tool.name}"></span>
-    <br><img th:src="${tool.image}" class="toolIcon">
-<!--    <br><span th:text="${'Description: ' + tool.description}"></span>-->
-    <!--    <br><span th:text="${'Availability: ' + tool.isAvailable}"></span>-->
-</li>
-<h2 th:text="${'Tools Borrowed by ' + username} "></h2>
-
-<form action="/return-tool" th:method="put">
-    <div th:each="tool : ${listOfTools}">
-        <span>
+<h2 th:text="${'Tools Listed by ' + username} "></h2><br>
+<div class="tool">
+    <span th:each="tool : ${listOfTools}">
+        <form action="/return-tool" th:method="put">
             <label th:text="${tool.name}" th:for="${tool.id}">
             </label>
+            <br><img th:src="${tool.image}" class="toolIcon">
             <input type="hidden" th:value="${tool.id}" name="toolId">
             <input th:if="${tool.openReturnRequest == true}" type="submit" value="Verify tool was returned">
-        </span>
-    </div>
-</form>
-<h2>Remove a tool listing</h2>
-<!--Work in progress-->
-<form>
-    <div th:each="tool : ${listOfTools}">
-        <label>
-        </label>
-    </div>
-</form>
+        </form>
+    </span>
+</div>
+<!--<h2>Remove a tool listing</h2>-->
+<!--<form>-->
+<!--    <div th:each="tool : ${listOfTools}">-->
+<!--        <label>-->
+<!--        </label>-->
+<!--    </div>-->
+<!--</form>-->
 
 
 <h2 th:text="${'Tools Borrowed by ' + username} "></h2>

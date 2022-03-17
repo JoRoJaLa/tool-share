@@ -135,42 +135,34 @@ public class AppUserController {
             return new RedirectView("/profile");
         }
 
+
+
         @PutMapping("/return-tool")
         public RedirectView returnTool (Principal p, Long toolId){
             String username = p.getName();
-            AppUser currentUser = (AppUser) appUserRepository.findByUsername(username);
             Tool toolToReturn = toolRepository.getById(toolId);
+            AppUser owner = toolToReturn.getToolListedByUser();
+            AppUser borrower = toolToReturn.getToolBorrowedByUser();
             toolToReturn.setAvailable(true);
             toolToReturn.setToolBorrowedByUser(null);
-            List<Tool> toolsBorrowed = currentUser.getToolsBorrowed();
+            toolToReturn.setOpenReturnRequest(false);
+            List<Tool> toolsBorrowed = borrower.getToolsBorrowed();
             List<Tool> updatedBorrowedTools = toolsBorrowed.stream().filter(tool -> !tool.equals(toolToReturn)).toList();
-            currentUser.setToolsBorrowed(updatedBorrowedTools);
+            borrower.setToolsBorrowed(updatedBorrowedTools);
             toolRepository.save(toolToReturn);
-            appUserRepository.save(currentUser);
+            appUserRepository.save(borrower);
 
             return new RedirectView("/profile");
         }
 
         @GetMapping("/aboutus")
         public String getAboutUsPage (Principal p, Model m){
-
-
-        if (toolToBorrow != null && toolToBorrow.getAvailable() && !toolToBorrow.getToolListedByUser().equals(currentUser)) {
-            toolToBorrow.setToolBorrowedByUser(currentUser);
-            toolToBorrow.setAvailable(false);
-            currentUser.addTooltoBorrowedTools(toolToBorrow);
-            appUserRepository.save(currentUser);
-            toolRepository.save(toolToBorrow);
-        } else {
-            throw new IOException("Tool not available to borrow");
-        }
             String username = null;
             if (p != null) {
                 username = p.getName();
             }
             m.addAttribute("username", username);
             return ("aboutus.html");
-
         }
 
 
@@ -183,20 +175,7 @@ public class AppUserController {
         return new RedirectView("/profile");
     }
 
-    @PutMapping("/return-tool")
-    public RedirectView returnTool(Long toolId){
-        Tool toolToReturn = toolRepository.getById(toolId);
-        AppUser borrower = toolToReturn.getToolBorrowedByUser();
-        List<Tool> toolsBorrowed = borrower.getToolsBorrowed();
-        List<Tool> updatedBorrowedTools = toolsBorrowed.stream().filter(tool -> !tool.equals(toolToReturn)).toList();
-        borrower.setToolsBorrowed(updatedBorrowedTools);
-        toolToReturn.setAvailable(true);
-        toolToReturn.setToolBorrowedByUser(null);
-        toolToReturn.setOpenReturnRequest(false);
-        toolRepository.save(toolToReturn);
-        appUserRepository.save(borrower);
-        return new RedirectView("/profile");
-    }
+
 
         @PostMapping("/signup")
         public RedirectView postSignup (String username, String password, String zipcode, RedirectAttributes redir) throws
