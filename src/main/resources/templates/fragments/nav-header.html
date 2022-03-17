@@ -11,10 +11,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100&display=swap" rel="stylesheet">
     <title>Document</title>
 </head>
-<header th:fragment="header">
-    <img src="/../images/ToolShareLogo.jpg" alt="Tool Share Logo" class="header-logo">
-    <h1>Tool Share</h1>
-    <h3 th:text="${'Current User: ' + username}"></h3>
+<header th:fragment="header" class="header-fragment">
+    <h1 style="padding:1vw;margin:1vw;background-color: #599A70;color: white;border-radius: 5px;" >Tool Share</h1>
+    <h1 style="padding:1vw;margin:1vw;" th:text="${'Current User: ' + username}"></h1>
 </header>
 
 <nav th:fragment="menu">
