@@ -17,7 +17,11 @@
 <body>
 
 
-<h1>Welcome to Tool Share!</h1>
+<header class="header-fragment">
+    <h1 style="padding:1vw;margin:1vw;background-color: #599A70;color: white;border-radius: 5px;" >Tool Share</h1>
+    <h1 style="padding:1vw;margin:1vw;">Welcome to Tool Share!</h1>
+</header>
+
 
 <div th:if="${username}">
     <div class="navbar">
@@ -46,8 +50,46 @@
     </div>
 </div>
 
+<div class="splash-page-photo">
+    <img src="/../images/toolShare_banner2.jpg" alt="Tool Share" class="responsive">
+</div>
 
-<img src="/../images/homeBanner.png" alt="Tool Share" class="responsive">
+<div>
+    <h1 style="font-size: 5vw;text-align:center;">Find a Tool</h1>
+</div>
+<div>
+    <h2 style="font-size: 2vw;text-align:center;">Find tools within your local community that you can put to good use</h2>
+</div>
+
+
+<div style="display:flex;margin-bottom:5vw;margin-right:auto;margin-left:auto;align-items:center;justify-content:center;">
+    <div class="tool-home">
+        <img src="/../images/circularsaw.png" style="width:100%;">
+    </div>
+    <div class="tool-home">
+        <img src="/../images/crowbar.png" style="width:100%;">
+    </div>
+    <div class="tool-home">
+        <img src="/../images/drill.png" style="width:100%;">
+    </div>
+    <div class="tool-home">
+        <img src="/../images/sledgehammer.png" style="width:100%;">
+    </div>
+</div>
+
+<div style="display:flex;margin-bottom:2vw;margin-right:auto;margin-left:auto;align-items:center;justify-content:center;">
+    <div class="button-group">
+        <div class="buttons-home">
+            <a href="/signup" class="disabled-link"> Sign Up </a>
+        </div>
+        <div class="buttons-home">
+            <a href="/login" class="disabled-link"> Login </a>
+        </div>
+    </div>
+
+</div>
+
+
 
 
 <footer>
