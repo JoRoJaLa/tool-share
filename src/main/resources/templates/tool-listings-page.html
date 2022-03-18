@@ -17,44 +17,50 @@
 
 <div class="navbar" th:insert="fragments/nav-header :: menu"></div>
 
-    <div class="profile-section">
-        <h2>Filter Search</h2>
-    <form action="/filter-tools" th:method="get">
-        <select name="tools" id="tools">
-            <option value="all">All</option>
-            <option value="drill">Drill</option>
-            <option value="crowbar">Crowbar</option>
-            <option value="sledgeHammer">Sledge Hammer</option>
-            <option value="circularSaw">Circular Saw</option>
-        </select>
-        <input type="submit" value="Filter tools by Type">
-    </form>
 
+<div class="profile-section" >
+    <h2 style="display:block;">Filter Search</h2>
+    <div style="padding:1vw;margin:1vw;background-color: #599A70;color: white;border-radius: 5px;display:flex;">
+        <div>
+            <form action="/filter-tools" th:method="get" style="margin: 6px;">
+                <select name="tools" id="tools">
+                    <option value="all">All</option>
+                    <option value="drill">Drill</option>
+                    <option value="crowbar">Crowbar</option>
+                    <option value="sledgeHammer">Sledge Hammer</option>
+                    <option value="circularSaw">Circular Saw</option>
+                </select>
+                <input type="submit" value="Filter tools by Type">
+            </form>
 
+        </div>
 
-<div>
-    <form action="/filter-state" th:method="get">
-        <label> State Search
-            <input type="text" name="state">
-        </label>
-        <input type="submit" value="Filter tools by State">
-    </form>
-</div>
+        <div>
+            <form action="/filter-state" th:method="get" style="margin: 6px;">
+                <label> State Search
+                    <input type="text" name="state">
+                </label>
+                <input type="submit" value="Filter tools by State">
+            </form>
+        </div>
 
-<div>
-    <form action="/filter-city" th:method="get">
-        <label> City Search
-            <input type="text" name="city">
-        </label>
-        <input type="submit" value="Filter tools by City">
-    </form>
-</div>
+        <div>
+            <form action="/filter-city" th:method="get" style="margin: 6px;">
+                <label> City Search
+                    <input type="text" name="city">
+                </label>
+                <input type="submit" value="Filter tools by City">
+            </form>
+        </div>
 
-<div>
-    <form action="/filter-distance-miles" th:method="get">
-        <input type="submit" value="Filter by distance miles">
-    </form>
-</div>
+        <div>
+            <form action="/filter-distance-miles" th:method="get" style="margin: 6px;">
+                <input type="submit" value="Filter by closest distance">
+            </form>
+        </div>
+
+    </div>
+
 </div>
 <div class="profile-section">
 

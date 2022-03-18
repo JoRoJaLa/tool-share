@@ -173,7 +173,7 @@ public class AppUserController {
 
 
         @PostMapping("/signup")
-        public RedirectView postSignup (String username, String password, String zipcode, RedirectAttributes redir) throws
+        public RedirectView postSignup (String username, String password, String email, String zipcode, RedirectAttributes redir) throws
         IOException
         {
 
@@ -184,6 +184,7 @@ public class AppUserController {
             }
             AppUser newUser = new AppUser();
             newUser.setUsername(username);
+            newUser.setEmail(email);
             newUser.setZipcode(zipcode);
 
             String hashedPassword = passwordEncoder.encode(password);
@@ -196,7 +197,7 @@ public class AppUserController {
 
             appUserRepository.save(newUser);
             authWithHttpServletRequest(username, password);
-            return new RedirectView("/");
+            return new RedirectView("/profile");
         }
 
         public void authWithHttpServletRequest (String username, String password)
