@@ -14,6 +14,11 @@ font-family: 'Raleway', sans-serif;
 text-align: center
 }
 
+.splash-page-photo{
+margin-top: 2vw;
+margin-bottom: 5vw;
+}
+
 .splash img {
   background-color: #555;
   max-width: 75%;
@@ -93,6 +98,9 @@ text-align: center;
 margin: 5vw;
 }
 
+
+
+
 div.tool {
 width: 50%;
 background-color: white;
@@ -100,6 +108,16 @@ border: 3px solid #599A70;
 box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 margin-bottom: 25px;
 }
+
+
+.tool-home {
+width: 10%;
+background-color: white;
+margin: 1vw;
+box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+margin-bottom: 25px;
+}
+
 .header-fragment{
 display: flex;
 }
@@ -111,6 +129,17 @@ display: flex;
 .buttons{
 margin: 3vw;
 background-color: #599A70;
+font-size: 20px;
+color: white;
+margin-left: 30px;
+padding: 20px;
+border-radius: 5px;
+}
+
+.buttons-home{
+margin: 3vw;
+background-color: #599A70;
+font-size: 30px;
 color: white;
 margin-left: 30px;
 padding: 20px;
