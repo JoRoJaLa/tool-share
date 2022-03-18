@@ -17,6 +17,7 @@ public class AppUser implements UserDetails{
     String username;
     String password;
     String zipcode;
+    String email;
     Boolean admin = false;
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -33,8 +34,9 @@ public class AppUser implements UserDetails{
         // default constructor
     }
 
-    public AppUser(String username, String password, String zipcode) {
+    public AppUser(String username, String password, String zipcode, String email) {
         this.username = username;
+        this.email = email;
         this.password = password;
         this.zipcode = zipcode;
     }
@@ -51,6 +53,13 @@ public class AppUser implements UserDetails{
         return username;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
