@@ -1,21 +1,39 @@
 # Tool Share
 
-## Contributors
+Version: 1.0.2
+
+---
+## Description
+
+Tool Share is an app sharing platform where users can find and share tools within their city.
+
+
+### Contributors
 - Hambalieu Jallow
 - Kevin LaMarca
 - Joshua McCluskey
 - Shane Roach
 
-## Description
+### Tools Used
+- Spring
+- Spring Boot
+- Spring MVC
+- Spring Security
+- Thymeleaf
+- PostgresSQL
+- Heroku
 
-Tool Share is an app sharing platform where users can find and share tools within their city.
+
 
 ## User Instructions
+
+--- 
 1. Clone down repository.
 2. Run `./gradlew bootRun` in command line to build application.
 
 
-## Documentation 
+## Documentation
+---
 ### User Stories
 
 #### High Level
@@ -52,9 +70,18 @@ Tool Share is an app sharing platform where users can find and share tools withi
 - Filter by other parameters for tool sort.
 - Transaction exchange between objects.
 
+## Change Log
+---
+
+### 4/2/22
+- Updated Spring framework plugin from 2.6.4 to 2.6.6.
+- Fixed image size of splash page banner visual to provide better user experience.
+
 
 
 ## Resources
+
+---
 - [Team Agreement](https://docs.google.com/document/d/1ryQMBuH6gXrHrxLx_NkCaN7Azr95d7lRyIM4f-5L_vY/edit?usp=sharing)
 - [Trello](https://trello.com/b/lMQDnfwi/tool-share)
 - [Geoapify API](https://apidocs.geoapify.com/docs/geocoding/forward-geocoding/#about)
